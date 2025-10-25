@@ -1,3 +1,3 @@
 # Unicorn: Cây Lộc Công Nghệ
 
-![](./image1.png)
+![](./image1.jpg)
