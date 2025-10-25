@@ -1,0 +1,2059 @@
+# Yêu Cầu Tổng Thể: Tạo Infographic Dạng SPA (Single-Page Application)
+
+**Mục tiêu:** Dựa trên nội dung văn bản được cung cấp, hãy tạo một tệp HTML duy nhất hoạt động như một infographic dạng ứng dụng một trang (SPA). Infographic này phải trình bày thông tin phức tạp một cách trực quan, hấp dẫn và dễ hiểu thông qua một câu chuyện mạch lạc, sử dụng các biểu đồ và yếu tố thiết kế phù hợp.
+
+**Ngôn ngữ hiển thị:** Toàn bộ nội dung văn bản trên infographic (tiêu đề, mô tả, nhãn biểu đồ, v.v.) bắt buộc phải là tiếng Việt.
+
+## I. Quy Trình Phân Tích & Lên Ý Tưởng (Bắt Buộc)
+
+Trước khi viết code, bạn phải thực hiện các bước phân tích sau và ghi lại dưới dạng comment trong thẻ `<head>` của file HTML.
+
+**Phân Tích & Tóm Tắt Nội Dung:**
+- Đọc kỹ tài liệu nguồn, xác định các điểm dữ liệu (data points) quan trọng, các mối quan hệ, các số liệu thống kê, và thông điệp chính.
+- Chắt lọc và tóm tắt thông tin thành các ý chính, siêu ngắn gọn.
+
+**Xây Dựng Cấu Trúc & Kịch Bản Thuyết Trình:**
+- Dựa trên phân tích, vạch ra một luồng câu chuyện logic cho infographic.
+- Chia nội dung thành các section rõ ràng (ví dụ: Giới thiệu, So sánh tính năng, Phân tích hiệu năng, Chân dung người dùng, Kết luận).
+
+**Lựa Chọn Hình Thức Trực Quan Hóa:**
+- Với mỗi section và mỗi điểm dữ liệu, xác định mục tiêu (ví dụ: So sánh, Hiển thị xu hướng, Phân tích thành phần).
+- Lựa chọn loại biểu đồ hoặc hình thức trực quan (thẻ card, bảng) phù hợp nhất, tuân thủ nghiêm ngặt các yêu cầu kỹ thuật bên dưới.
+- Ghi chú ngắn gọn lý do chọn hình thức đó (ví dụ: So sánh trải nghiệm -> Biểu đồ radar -> Lý tưởng để so sánh nhiều thuộc tính (Không gian, Tiện nghi, Yên tĩnh,...) trên cùng một thang đo. Hiệu năng -> Biểu đồ cột nhóm -> Phù hợp để so sánh trực tiếp nhiều chỉ số giữa 2 đối tượng.).
+
+## II. Yêu Cầu Kỹ Thuật (Bắt Buộc)
+
+**Cấu Trúc File:**
+- Toàn bộ sản phẩm phải nằm trong MỘT tệp HTML duy nhất.
+- Sử dụng HTML5 với các thẻ ngữ nghĩa (`<header>`, `<main>`, `<section>`, `<footer>`, `<h3>`, `<p>`, `<table>`, etc.).
+
+**CSS & Styling:**
+- **Tailwind CSS:** Bắt buộc sử dụng làm framework chính, tải qua CDN: `<script src="https://cdn.tailwindcss.com"></script>`.
+- **Custom CSS:** Chỉ viết CSS tùy chỉnh trong thẻ `<style>` cho các hiệu ứng phức tạp mà Tailwind không hỗ trợ (ví dụ: gradient đặc biệt, animation keyframes, pseudo-elements).
+- **Thẻ Chứa Biểu Đồ (.chart-container):** Mọi biểu đồ `<canvas>` phải được bọc trong một `<div>` có class `.chart-container`. Thẻ div này phải được style để:
+  - Responsive và có chiều cao/rộng được kiểm soát (ví dụ: w-full, h-[400px], max-w-3xl, mx-auto).
+  - Có position: relative;
+
+**Thư Viện JavaScript (Bắt Buộc):**
+- **Chart.js:** Bắt buộc sử dụng cho tất cả các biểu đồ tiêu chuẩn, tải qua CDN: `<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>`.
+- **Kết xuất trên Canvas:** Tất cả biểu đồ phải được render trên phần tử `<canvas>`.
+- **Cấu hình bắt buộc:** Mọi biểu đồ Chart.js phải có options sau: `{ responsive: true, maintainAspectRatio: false }`.
+- **Xử Lý Nhãn Dài:** Bắt buộc phải có hàm JavaScript để tự động ngắt dòng các nhãn (labels) dài hơn 16 ký tự thành một mảng các chuỗi con.
+- **Cấu hình Tooltip:** Bắt buộc phải có plugins.tooltip.callbacks.title để xử lý tooltip cho các nhãn đã được ngắt dòng.
+
+**Đồ Họa & Biểu Tượng (Icons):**
+- **CẤM SỬ DỤNG SVG:** Tuyệt đối không nhúng hoặc sử dụng thẻ `<svg>` hay file .svg.
+- **CẤM SỬ DỤNG Mermaid JS:** Không được dùng thư viện Mermaid JS.
+- **Icons:** Chỉ sử dụng thư viện Font Awesome (tải qua CDN) hoặc các ký tự Unicode (Emoji).
+- **CDN Font Awesome:** `<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">`
+- **Xử lý Hình ảnh:**
+  - **KHÔNG ĐƯỢC PHÉP** make up, tạo links để chèn vào.
+  - **KHÔNG hiển thị ảnh** nếu link trong văn bản không tồn tại, không hoàn chỉnh, hoặc không phù hợp với nội dung. (ví dụ link quảng cáo, link reference,..etc).  
+  - Nếu nguồn dữ liệu cung cấp nhiều link ảnh, chỉ chọn lọc 1 hoặc 2 ảnh đại diện phù hợp nhất để hiển thị.
+  
+
+## III. Yêu Cầu Thiết Kế & Nội Dung
+
+**Bảng Màu (Color Palette):**
+- Chọn MỘT bảng màu cụ thể, sống động và có độ tương phản cao.
+- Áp dụng màu sắc một cách nhất quán cho nền, chữ, biểu đồ, và các điểm nhấn.
+- Ghi tên bảng màu đã chọn trong comment của file HTML.
+
+**Typography & Font Chữ:**
+- Sử dụng Google Fonts (khuyến khích Be Vietnam Pro hoặc Montserrat) và import trong thẻ `<head>`.
+- Phân cấp tiêu đề rõ ràng (h1, h2, h3) với kích thước và độ đậm khác nhau.
+- Thêm icon từ Font Awesome vào trước các tiêu đề section để tăng tính trực quan.
+
+**Bố Cục & Phong Cách:**
+- Áp dụng nguyên tắc thiết kế hiện đại, sạch sẽ. Sử dụng các thẻ card (div với bg-white, rounded-xl, shadow-lg, p-6) để nhóm thông tin.
+- Sử dụng hiệu quả khoảng trắng và hệ thống grid của Tailwind để tạo bố cục cân đối, dễ đọc.
+- Thêm các hiệu ứng tinh tế (transition, hover) để tăng trải nghiệm người dùng.
+
+**Nội Dung Đi Kèm:**
+- **Bối cảnh là Vua:** Mỗi biểu đồ hoặc hình ảnh trực quan phải đi kèm một đoạn văn bản ngắn gọn giải thích nó đang thể hiện điều gì và kết luận rút ra là gì.
+- **Dẫn dắt câu chuyện:** Mỗi section lớn phải có một đoạn giới thiệu ngắn để dẫn dắt người dùng vào chủ đề.
+
+**IV. Cấu Trúc File HTML Cơ Bản:**
+
+```html
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><!-- Tiêu đề Infographic --></title>
+    
+    <!-- PHÂN TÍCH & LÊN Ý TƯỞNG (COMMENT) -->
+    <!-- 
+        1. Phân tích nội dung: [Tóm tắt ngắn gọn các điểm chính]
+        2. Cấu trúc & Kịch bản: [Liệt kê các section sẽ có]
+        3. Lựa chọn trực quan hóa: [Ghi chú loại biểu đồ/thẻ sẽ dùng và lý do]
+        4. Bảng màu: [Tên bảng màu đã chọn, ví dụ: Future Forward]
+    -->
+    
+    <!-- CDNs -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            height: 400px;
+            width: 100%;
+        }
+        /* Style để làm nổi bật thông tin nâng cấp */
+        .highlight-upgrade {
+            position: relative;
+            font-weight: 700;
+            color: #7c3aed; /* Màu tím nổi bật */
+        }
+        .highlight-upgrade::after {
+            content: '✨'; /* Icon nhỏ đi kèm */
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-700">
+
+    <div class="container mx-auto p-8">
+        
+        <!-- ======================= 1. HEADER ======================= -->
+        <header class="text-center mb-16">
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-4"><!-- Tiêu đề chính --></h1>
+            <p class="text-lg text-slate-600 max-w-3xl mx-auto"><!-- Mô tả ngắn gọn --></p>
+        </header>
+
+        <!-- ======================= 2. NỘI DUNG CHÍNH ======================= -->
+        <main class="space-y-16">
+
+            <!-- SECTION 2.1: HÌNH ẢNH CHÍNH (nếu có link phù hợp tồn tại) -->
+            <!-- Hướng dẫn: Chọn MỘT trong hai cấu trúc dưới đây. LƯU Ý: Bỏ qua hoàn toàn section này nếu không có link phù hợp, KHÔNG được tự ý chèn link, ảnh -->
+
+            <!-- Tùy chọn 1 (nếu chứa link phù hợp): Hiển thị MỘT ảnh đại diện duy nhất -->
+            <section id="hero-image-single">
+                <figure class="bg-white p-4 rounded-2xl shadow-lg">
+                    <img src="[URL_HINH_ANH_DAI_DIEN]" alt="[Mô tả ảnh]" class="rounded-xl w-full object-cover">
+                    <figcaption class="text-center text-sm text-slate-500 mt-3">[Chú thích cho ảnh]</figcaption>
+                </figure>
+            </section>
+
+            <!-- Tùy chọn 2 (Nếu cả 2 link phù hợp): Hiển thị HAI ảnh so sánh cạnh nhau. -->
+            <section id="hero-image-comparison">
+                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <figure>
+                        <img src="[URL_HINH_ANH_1]" alt="[Mô tả ảnh 1]" class="rounded-xl w-full object-cover">
+                        <figcaption class="text-center text-sm text-slate-500 mt-2">[Chú thích ảnh 1]</figcaption>
+                    </figure>
+                     <figure>
+                        <img src="[URL_HINH_ANH_2]" alt="[Mô tả ảnh 2]" class="rounded-xl w-full object-cover">
+                        <figcaption class="text-center text-sm text-slate-500 mt-2">[Chú thích ảnh 2]</figcaption>
+                    </figure>
+                 </div>
+            </section>
+            
+            <!-- SECTION 2.2: Các thẻ tóm tắt điểm chính -->
+            <section id="highlights">
+                <h2 class="text-3xl font-bold text-center mb-10"><!-- Tiêu đề section 1 --></h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- ... Các thẻ div.card ... -->
+                </div>
+            </section>
+
+            <!-- SECTION 2.3: Biểu đồ (Radar, Cột, Tròn, v.v.) (nếu có thông tin insight trích xuất được từ input) -->
+            <section id="chart-section">
+                 <h2 class="text-3xl font-bold text-center mb-10"><!-- Tiêu đề section 2 --></h2>
+                 <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                    <div class="chart-container">
+                        <canvas id="myUniqueChartID"></canvas>
+                    </div>
+                    <p class="text-center text-sm text-slate-500 mt-4"><!-- Chú thích/Insight của biểu đồ --></p>
+                 </div>
+            </section>
+
+             <!-- SECTION 2.4: Bảng so sánh chi tiết (nếu có) -->
+             <section id="table-section">
+                <h2 class="text-3xl font-bold text-center mb-10"><!-- Tiêu đề section 3 --></h2>
+                <div class="overflow-x-auto bg-white rounded-xl shadow-lg p-1">
+                    <table class="w-full min-w-max">
+                        <thead class="bg-slate-100">
+                            <tr>
+                                <th class="p-4 text-left">Tính năng</th>
+                                <th class="p-4 text-center">Sản phẩm A</th>
+                                <th class="p-4 text-center">Sản phẩm B</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="hover:bg-violet-50">
+                                <td class="p-4 font-medium">Một tính năng nào đó</td>
+                                <td class="p-4 text-center">Thông số cũ</td>
+                                <td class="p-4 text-center">
+                                    <span class="highlight-upgrade">Thông số vượt trội</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+             </section>
+             
+             <!-- ... Các section khác nếu cần ... -->
+
+        </main>
+
+        <!-- ======================= 3. FOOTER ======================= -->
+        <footer class="text-center text-sm text-slate-500 mt-16 pt-8 border-t">
+            <p>&copy; 2025 | Infographic được thiết kế bởi AI.</p>
+        </footer>
+
+    </div>
+
+    <!-- ======================= SCRIPT FOR CHARTS ======================= -->
+    <script>
+        // Hàm xử lý nhãn dài (bắt buộc)
+        function wrapLabel(label, maxWidth) { /* ... */ }
+
+        // Callback cho tooltip (bắt buộc)
+        const tooltipTitleCallback = (tooltipItems) => { /* ... */ };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Logic để vẽ biểu đồ cho #myUniqueChartID
+        });
+    </script>
+</body>
+</html>
+```
+
+# VÍ DỤ 1:
+
+"""
+So Sánh Chi Tiết: Mercedes-Benz S450 và Mercedes-Maybach S450
+Mercedes-Benz S-Class từ lâu đã là biểu tượng của dòng sedan hạng sang cỡ lớn. Tuy nhiên, khi thương hiệu Maybach được hồi sinh và tích hợp vào dòng S-Class, một chuẩn mực mới về sự xa hoa đã được thiết lập. Dưới đây là sự so sánh chi tiết giữa phiên bản tiêu chuẩn Mercedes-Benz S450 và phiên bản siêu sang Mercedes-Maybach S450 để thấy rõ sự khác biệt.
+
+Bảng So Sánh Tổng Quan
+Tiêu Chí
+
+Mercedes-Benz S450
+
+Mercedes-Maybach S450
+
+Giá Niêm Yết
+
+Khoảng từ 5 tỷ VNĐ
+
+Khoảng từ 8,2 tỷ VNĐ
+
+Chiều Dài Cơ Sở
+
+~ 3.106 mm
+
+~ 3.396 mm (+290 mm)
+
+Ngoại Thất
+
+Sang trọng, hiện đại
+
+Uy nghi, quyền lực, nhiều chi tiết độc quyền
+
+Nội Thất
+
+Tập trung vào sự thoải mái cho cả người lái và hành khách
+
+Tối ưu cho hàng ghế sau (ghế "ông chủ")
+
+Điểm Nhấn Chính
+
+Mẫu sedan hạng sang đầu bảng, cân bằng giữa lái và tiện nghi
+
+Sự xa hoa tột đỉnh, không gian và tiện nghi hàng ghế sau vượt trội
+
+Đối Tượng
+
+Doanh nhân thành đạt, người cần một chiếc xe sang trọng để tự lái hoặc có tài xế
+
+Giới thượng lưu, chủ tịch, người luôn có tài xế riêng và xem xe là "văn phòng di động" hoặc nơi thư giãn
+
+Phân Tích Chi Tiết
+1. Ngoại Thất - Dấu Ấn Của Sự Khác Biệt
+Sự khác biệt về đẳng cấp được thể hiện ngay từ vẻ bề ngoài.
+
+Mercedes-Benz S450:
+
+Mang ngôn ngữ thiết kế "Sensual Purity" thế hệ mới, thanh lịch và hiện đại.
+
+Lưới tản nhiệt 3 nan ngang mạ chrome quen thuộc của S-Class.
+
+Tay nắm cửa dạng ẩn, la-zăng thường có kích thước 19-inch đa chấu.
+
+Tổng thể hài hòa, sang trọng nhưng vẫn giữ nét phổ thông của dòng S-Class.
+
+Mercedes-Maybach S450:
+
+Uy nghi và độc quyền: Lưới tản nhiệt đặc trưng với các thanh nan dọc mạ chrome sáng bóng và logo "MAYBACH" tinh xảo ở phía trên.
+
+Kích thước vượt trội: Trục cơ sở kéo dài thêm gần 30cm, tạo nên thân xe bề thế và tráng lệ hơn hẳn. Cửa sau được thiết kế rộng và vuông vức hơn để dễ dàng ra vào.
+
+Logo Maybach: Logo hai chữ M lồng vào nhau của Maybach xuất hiện ở cột C, khẳng định vị thế độc tôn.
+
+La-zăng: Bộ mâm là loại "Monoblock" 20-inch đặc trưng của Maybach, mang thiết kế cổ điển và sang trọng.
+
+Sơn hai tông màu: Một trong những tùy chọn đắt giá và đặc trưng nhất, giúp chiếc xe nổi bật tuyệt đối trên đường.
+
+2. Nội Thất - Nơi Đẳng Cấp Lên Tiếng
+Đây là yếu tố tạo ra sự khác biệt lớn nhất và định giá cho hai phiên bản. Nếu S450 là một khách sạn 5 sao, thì Maybach S450 là một phòng Tổng thống di động.
+
+Mercedes-Benz S450:
+
+Khoang nội thất đã rất xa hoa với da Nappa cao cấp, màn hình trung tâm OLED 12.8 inch, hệ thống âm thanh vòm Burmester® 3D.
+
+Hàng ghế sau vẫn rất rộng rãi và thoải mái, có các tính năng sưởi, thông gió và chỉnh điện.
+
+Không gian được thiết kế cân bằng cho cả người lái và hành khách.
+
+Mercedes-Maybach S450:
+
+Tất cả cho hàng ghế sau: Toàn bộ không gian gia tăng từ trục cơ sở được dành cho hàng ghế sau. Hành khách có thể duỗi chân gần như hoàn toàn.
+
+Ghế thương gia (First-Class Rear): Hai ghế ngồi độc lập có thể ngả sâu tới 43,5 độ, tích hợp đệm bắp chân, sưởi ấm cổ/vai, và nhiều chế độ massage chuyên sâu (bao gồm cả hiệu ứng massage đá nóng).
+
+Sự yên tĩnh tuyệt đối: Hệ thống chống ồn chủ động (Active Noise Cancellation) hoạt động như tai nghe chống ồn, mang lại một không gian tĩnh lặng gần như tuyệt đối. Kính xe là loại cách âm, cách nhiệt nhiều lớp.
+
+Vật liệu thượng hạng: Nội thất được trang trí bằng gỗ quý, da Nappa thượng hạng với các đường chỉ khâu hình kim cương độc quyền, thảm sàn dày và mềm mại, trần xe bọc vật liệu vi sợi DINAMICA.
+
+Tiện nghi độc quyền: Tùy chọn tủ lạnh mini, bộ ly champagne bằng bạc, bàn làm việc gập gọn, hệ thống giải trí MBUX High-End cho hàng ghế sau... tất cả biến khoang sau thành một phòng khách hoặc văn phòng sang trọng.
+
+3. Động Cơ & Vận Hành
+Một điểm khá thú vị là cả hai phiên bản đều chia sẻ chung một cấu hình động cơ và hộp số.
+
+Động cơ: Xăng I6, dung tích 3.0L với công nghệ Mild-Hybrid EQ Boost.
+
+Công suất: Khoảng 367 mã lực.
+
+Mô-men xoắn: 500 Nm.
+
+Hộp số: Tự động 9 cấp 9G-TRONIC.
+
+Hệ dẫn động: 4 bánh toàn thời gian 4MATIC.
+
+Tuy nhiên, trải nghiệm vận hành lại có sự khác biệt. Maybach S450 được trang bị chế độ lái "Maybach Mode" độc quyền. Ở chế độ này, hệ thống treo khí nén AIRMATIC sẽ được tinh chỉnh để đạt đến độ êm ái tối đa, xe tăng tốc mượt mà hơn, hạn chế mọi rung động truyền vào khoang cabin, ưu tiên tuyệt đối sự thoải mái cho "ông chủ" ở hàng ghế sau.
+
+4. Mức Giá
+Sự chênh lệch về giá bán là rất đáng kể:
+
+Mercedes-Benz S450: Có giá niêm yết khoảng 5 tỷ VNĐ.
+
+Mercedes-Maybach S450: Có giá niêm yết khởi điểm từ 8,2 tỷ VNĐ (chưa bao gồm các tùy chọn cá nhân hóa đắt tiền).
+
+Mức chênh lệch hơn 3 tỷ đồng chính là chi phí cho sự độc quyền, không gian vượt trội, vật liệu thủ công, những tiện nghi xa hoa và giá trị thương hiệu "Maybach".
+
+Kết Luận: Lựa Chọn Nào Dành Cho Bạn?
+Chọn Mercedes-Benz S450 nếu:
+
+Bạn là một doanh nhân thành đạt, muốn một chiếc xe đầu bảng thể hiện vị thế.
+
+Bạn cần một chiếc xe cân bằng giữa việc tự mình cầm lái và đôi khi có tài xế.
+
+Bạn yêu cầu sự sang trọng, tiện nghi và công nghệ hàng đầu, nhưng vẫn trong một giới hạn "hợp lý".
+
+Chọn Mercedes-Maybach S450 nếu:
+
+Bạn là chủ tịch, nhà lãnh đạo cấp cao, hoặc người thuộc giới thượng lưu.
+
+Bạn gần như chỉ ngồi ở hàng ghế sau và xem chiếc xe là một không gian để làm việc, thư giãn hoặc tiếp đãi đối tác quan trọng.
+
+Đối với bạn, chiếc xe không chỉ là phương tiện di chuyển, mà là một tuyên ngôn về đẳng cấp và địa vị xã hội. Sự êm ái, riêng tư và xa hoa tuyệt đối là ưu tiên hàng đầu.
+
+Về bản chất, S450 là một chiếc xe sang trọng. Còn Maybach S450 là một trải nghiệm siêu sang, một đẳng cấp hoàn toàn khác biệt.
+"""
+
+OUTPUT-HTML:
+```html
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infographic: So Sánh Mercedes S450 & Maybach S450</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+    <!-- Kịch Bản & Cấu Trúc -->
+    <!-- 
+        1. Phân Tích Giá Trị: Số liệu chính về chênh lệch giá và Biểu đồ Tròn để thể hiện định vị thị trường.
+        2. So Sánh Kích Thước: Tập trung so sánh kích thước ngoại thất, đặc biệt là chiều dài cơ sở, sử dụng Biểu đồ Cột ngang.
+        3. Trải Nghiệm Nội Thất Maybach: Biểu đồ Radar để minh họa sự vượt trội của nội thất Maybach, tập trung vào sự xa hoa của hàng ghế sau.
+        4. Chân Dung Khách Hàng: Hai thẻ HTML/CSS riêng biệt để xác định hồ sơ người dùng.
+    -->
+    <!-- Lựa Chọn Trực Quan Hóa -->
+    <!-- 
+        - Tỷ Lệ Giá -> Biểu đồ Tròn (Chart.js/Canvas): Tuyệt vời để thể hiện mối quan hệ giữa các phần trong một tổng thể. Xác nhận KHÔNG DÙNG SVG.
+        - Số Liệu Chiều Dài Cơ Sở -> Biểu đồ Cột (Chart.js/Canvas): Cách rõ ràng nhất để so sánh một giá trị định lượng duy nhất giữa hai đối tượng. Xác nhận KHÔNG DÙNG SVG.
+        - Đặc Điểm Trải Nghiệm Nội Thất -> Biểu đồ Radar (Chart.js/Canvas): Hoàn hảo để so sánh nhiều thuộc tính định tính/được chấm điểm giữa hai thực thể. Xác nhận KHÔNG DÙNG SVG.
+        - Thẻ Chân Dung Khách Hàng -> HTML/CSS với Tailwind: Có cấu trúc, ngữ nghĩa và dễ dàng tạo kiểu để so sánh mà không cần sơ đồ phức tạp. Xác nhận KHÔNG DÙNG SVG, KHÔNG DÙNG MERMAID JS.
+    -->
+    <!-- Xác nhận: KHÔNG sử dụng đồ họa Mermaid JS hay SVG trong tài liệu này. Tất cả biểu đồ được kết xuất trên phần tử Canvas của HTML bằng Chart.js. -->
+    <!-- Bảng màu đã chọn: Brilliant Blues (Xanh Đẳng Cấp) -->
+    <!-- 
+        - Dark/Primary: #03045E
+        - Main Accent: #0077B6
+        - Secondary Accent: #00B4D8
+        - Light Accent/BG: #CAF0F8
+        - Text/Neutral: #484848
+        - White: #FFFFFF
+    -->
+    
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 550px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 450px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 380px;
+            }
+        }
+        .text-shadow {
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="text-[#484848]">
+    <div class="container mx-auto px-4 py-8 md:py-12">
+
+        <!-- ======================= 1. TIÊU ĐỀ ĐẦU TRANG (HEADER) ======================= -->
+        <header class="text-center mb-16">
+            <h1 class="text-4xl md:text-6xl font-extrabold text-[#03045E] text-shadow mb-4">Mercedes S450 vs. Maybach S450</h1>
+            <p class="max-w-4xl mx-auto text-lg md:text-xl">
+                Lựa chọn SANG TRỌNG hay XA XỈ
+            </p>
+        </header>
+
+        <!-- ======================= 2. NỘI DUNG CHÍNH (MAIN) ======================= -->
+        <main class="space-y-16 md:space-y-20">
+            <!-- SECTION 2.1: Phân Tích Giá Trị -->
+            <section id="price-analysis">
+                <h2 class="text-3xl font-bold text-center mb-4 text-[#03045E] flex items-center justify-center gap-x-3">
+                    <i class="fas fa-tags"></i>
+                    <span>Phân Tích Giá Trị: Sự Chênh Lệch Đẳng Cấp</span>
+                </h2>
+                <p class="text-center max-w-3xl mx-auto mb-10">Mức giá không chỉ là con số, đó là tuyên ngôn về vị thế. Maybach định vị mình trong một thế giới riêng, nơi sự độc quyền và xa hoa được định giá bằng tiền.</p>
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
+                    <div class="md:col-span-2 bg-white rounded-2xl shadow-xl p-8 text-center flex flex-col justify-center h-full border-b-8 border-[#0077B6]">
+                        <h3 class="text-2xl font-semibold text-[#0077B6] mb-4">Chi Phí Cho Sự Độc Quyền</h3>
+                        <p class="text-6xl md:text-8xl font-extrabold text-[#03045E] my-2">&gt;3 TỶ</p>
+                        <p class="text-xl font-medium text-[#484848]">VNĐ</p>
+                    </div>
+                    <div class="md:col-span-3 bg-white rounded-2xl shadow-xl p-6 md:p-8">
+                         <h3 class="text-xl font-semibold text-center text-[#03045E] mb-4">Tỷ Lệ Giá Bán (Niêm Yết)</h3>
+                         <div class="chart-container">
+                            <canvas id="priceChart"></canvas>
+                         </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2.2: So Sánh Ngoại Thất -->
+            <section id="exterior-analysis">
+                <h2 class="text-3xl font-bold text-center mb-4 text-[#03045E] flex items-center justify-center gap-x-3">
+                    <i class="fas fa-car-side"></i>
+                    <span>Ngoại Thất: Dấu Ấn Quyền Lực</span>
+                </h2>
+                <p class="text-center max-w-3xl mx-auto mb-10">Vẻ ngoài của Maybach không chỉ lớn hơn, mà còn sở hữu những chi tiết thiết kế độc quyền, tạo nên một tuyên ngôn không thể nhầm lẫn trên đường phố.</p>
+                <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div>
+                             <h3 class="text-xl font-semibold text-center text-[#03045E] mb-4">So Sánh Chiều Dài Cơ Sở (mm)</h3>
+                             <div class="chart-container h-[200px] md:h-[250px] max-w-full">
+                               <canvas id="wheelbaseChart"></canvas>
+                            </div>
+                            <p class="text-center mt-4 text-sm">Gần 30cm gia tăng được dành trọn vẹn cho không gian của hàng ghế sau trên Maybach.</p>
+                        </div>
+                        <div class="mt-8 md:mt-0">
+                            <div class="p-6 rounded-lg bg-[#f8f9fa] mb-4">
+                                <h4 class="font-bold text-lg text-[#0077B6]">Mercedes-Benz S450</h4>
+                                <p class="text-sm">Thiết kế thanh lịch, hiện đại và cân bằng.</p>
+                            </div>
+                             <div class="p-6 rounded-lg bg-[#f8f9fa] border-l-4 border-[#0077B6]">
+                                <h4 class="font-bold text-lg text-[#03045E]">Mercedes-Maybach S450</h4>
+                                <p class="text-sm">Uy nghi, bề thế với lưới tản nhiệt, logo và mâm xe độc quyền.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2.3: So Sánh Nội Thất -->
+            <section id="interior-experience">
+                <h2 class="text-3xl font-bold text-center mb-4 text-[#03045E] flex items-center justify-center gap-x-3">
+                    <i class="fas fa-gem"></i>
+                    <span>Nội Thất: Định Nghĩa Lại Sự Xa Hoa</span>
+                </h2>
+                <p class="text-center max-w-3xl mx-auto mb-10">Nếu S450 là một trải nghiệm hạng thương gia, thì Maybach là một chuyên cơ mặt đất. Mọi chi tiết đều được chế tác để phục vụ sự thoải mái tuyệt đối cho chủ nhân.</p>
+                <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8">
+                     <h3 class="text-xl font-semibold text-center text-[#03045E] mb-4">So Sánh Trải Nghiệm Cabin</h3>
+                     <div class="chart-container h-[380px] md:h-[420px]">
+                        <canvas id="experienceRadarChart"></canvas>
+                    </div>
+                    <p class="text-center mt-4 text-sm">Biểu đồ cho thấy S450 đạt điểm cao ở sự cân bằng, trong khi Maybach vượt trội hoàn toàn ở các yếu tố phục vụ cho hàng ghế sau.</p>
+                </div>
+            </section>
+            
+            <!-- SECTION 2.4: Chân Dung Khách Hàng -->
+            <section id="customer-profile">
+                <h2 class="text-3xl font-bold text-center mb-10 text-[#03045E] flex items-center justify-center gap-x-3">
+                    <i class="fas fa-map-signs"></i>
+                    <span>Lựa Chọn Nào Dành Cho Bạn?</span>
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-white rounded-2xl shadow-xl p-8 flex flex-col items-center text-center transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+                         <div class="w-24 h-24 rounded-full bg-[#CAF0F8] flex items-center justify-center mb-4"><span class="text-5xl">👔</span></div>
+                        <h3 class="font-bold text-2xl text-[#0077B6] mb-2">Người Tự Lái Tìm Kiếm Sự Sang Trọng</h3>
+                        <p class="text-slate-600 flex-grow">Dành cho những chủ nhân thành đạt, xem chiếc xe là phần thưởng, đánh giá cao sự cân bằng giữa cảm giác lái và tiện nghi hiện đại.</p>
+                        <div class="border-t border-gray-200 mt-4 pt-4 w-full">
+                            <p class="font-semibold text-[#0077B6]">Mẫu xe lý tưởng: <strong class="text-[#03045E]">Mercedes-Benz S450</strong></p>
+                        </div>
+                    </div>
+                     <div class="bg-white rounded-2xl shadow-xl p-8 flex flex-col items-center text-center transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 border-4 border-[#03045E]">
+                        <div class="w-24 h-24 rounded-full bg-[#03045E] flex items-center justify-center mb-4"><span class="text-5xl text-yellow-300">👑</span></div>
+                        <h3 class="font-bold text-2xl text-[#03045E] mb-2">Người Tận Hưởng Đẳng Cấp Thượng Lưu</h3>
+                        <p class="text-slate-600 flex-grow">Dành cho giới thượng lưu, xem chiếc xe là một tuyên ngôn về địa vị, nơi sự xa hoa và riêng tư ở hàng ghế sau là ưu tiên tuyệt đối.</p>
+                         <div class="border-t border-gray-200 mt-4 pt-4 w-full">
+                            <p class="font-semibold text-[#03045E]">Mẫu xe lý tưởng: <strong class="text-black">Mercedes-Maybach S450</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+        
+        <!-- ======================= 3. CHÂN TRANG (FOOTER) ======================= -->
+        <footer class="text-center text-sm text-slate-500 mt-12 py-6 border-t border-slate-200">
+            Infographic so sánh Mercedes S450 & Maybach S450 được thiết kế bởi AI.
+            <br>
+        </footer>
+    </div>
+
+<!-- ======================= SCRIPT CHO BIỂU ĐỒ ======================= -->
+<script>
+    function wrapLabel(label, maxWidth) {
+        const words = label.split(' ');
+        let line = '';
+        const lines = [];
+        for (let i = 0; i < words.length; i++) {
+            const testLine = line + words[i] + ' ';
+            if (testLine.length > maxWidth && i > 0) {
+                lines.push(line.trim());
+                line = words[i] + ' ';
+            } else {
+                line = testLine;
+            }
+        }
+        lines.push(line.trim());
+        return lines;
+    }
+
+    const tooltipTitleCallback = (tooltipItems) => {
+        const item = tooltipItems[0];
+        let label = item.chart.data.labels[item.dataIndex];
+        if (Array.isArray(label)) {
+          return label.join(' ');
+        }
+        return label;
+    };
+
+    const sharedChartOptions = {
+        plugins: {
+            tooltip: {
+                enabled: true,
+                callbacks: {
+                    title: tooltipTitleCallback
+                },
+                backgroundColor: '#03045E',
+                titleColor: '#FFFFFF',
+                bodyColor: '#CAF0F8',
+                titleFont: { size: 14, weight: 'bold', family: 'Montserrat' },
+                bodyFont: { size: 12, family: 'Montserrat' },
+                padding: 12,
+                cornerRadius: 8,
+                displayColors: false,
+            },
+            legend: {
+                position: 'bottom',
+                labels: {
+                    color: '#484848',
+                    font: {
+                        size: 14,
+                        family: 'Montserrat'
+                    },
+                    padding: 20,
+                    usePointStyle: true,
+                    pointStyle: 'rectRounded'
+                }
+            }
+        }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const priceCtx = document.getElementById('priceChart').getContext('2d');
+        new Chart(priceCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Mercedes-Benz S450', 'Mercedes-Maybach S450'],
+                datasets: [{
+                    data: [5, 8.2],
+                    backgroundColor: ['#0077B6', '#03045E'],
+                    borderColor: '#FFFFFF',
+                    borderWidth: 5,
+                    hoverOffset: 10
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '70%',
+                plugins: {
+                    ...sharedChartOptions.plugins,
+                    tooltip: {
+                         ...sharedChartOptions.plugins.tooltip,
+                         callbacks: {
+                             title: tooltipTitleCallback,
+                             label: function(context) {
+                                 return `~ ${context.raw} tỷ VNĐ`;
+                             }
+                         }
+                    }
+                }
+            }
+        });
+
+        const wheelbaseCtx = document.getElementById('wheelbaseChart').getContext('2d');
+        new Chart(wheelbaseCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Mercedes-Benz S450', 'Mercedes-Maybach S450'],
+                datasets: [{
+                    label: 'Chiều dài cơ sở (mm)',
+                    data: [3106, 3396],
+                    backgroundColor: ['#00B4D8', '#0077B6'],
+                    borderColor: ['#00B4D8', '#0077B6'],
+                    borderWidth: 1,
+                    borderRadius: 5,
+                    barPercentage: 0.6,
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                 plugins: {
+                    ...sharedChartOptions.plugins,
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: false,
+                        min: 3000,
+                        grid: { display: false, drawBorder: false },
+                        ticks: { color: '#484848', font: { family: 'Montserrat' } }
+                    },
+                    y: {
+                        grid: { display: false, drawBorder: false },
+                        ticks: { color: '#484848', font: { family: 'Montserrat', size: 14 } }
+                    }
+                }
+            }
+        });
+
+        const radarCtx = document.getElementById('experienceRadarChart').getContext('2d');
+        new Chart(radarCtx, {
+            type: 'radar',
+            data: {
+                labels: [
+                    'Không Gian Hàng Ghế Sau', 
+                    'Sự Yên Tĩnh Tuyệt Đối', 
+                    'Vật Liệu Thượng Hạng', 
+                    'Tiện Nghi Độc Quyền', 
+                    'Trải Nghiệm Cầm Lái'
+                ].map(label => wrapLabel(label, 18)),
+                datasets: [{
+                    label: 'S450',
+                    data: [7, 7, 8, 6, 9],
+                    fill: true,
+                    backgroundColor: 'rgba(0, 180, 216, 0.2)',
+                    borderColor: '#00B4D8',
+                    pointBackgroundColor: '#00B4D8',
+                }, {
+                    label: 'Maybach S450',
+                    data: [10, 10, 10, 9, 7],
+                    fill: true,
+                    backgroundColor: 'rgba(3, 4, 94, 0.2)',
+                    borderColor: '#03045E',
+                    pointBackgroundColor: '#03045E',
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: sharedChartOptions.plugins,
+                scales: {
+                    r: {
+                        angleLines: { color: '#e0e0e0' },
+                        grid: { color: '#e0e0e0' },
+                        pointLabels: { 
+                            font: { size: 12, family: 'Montserrat' },
+                            color: '#484848'
+                        },
+                        ticks: {
+                            backdropColor: 'transparent',
+                            stepSize: 2,
+                            color: '#484848',
+                            font: { family: 'Montserrat' }
+                        },
+                         min: 0,
+                         max: 10
+                    }
+                }
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
+```
+
+# VÍ DỤ 2:
+
+"""
+So sánh xe VinFast VF 5 và Toyota Raize – Có nên chọn công nghệ “xanh”?
+Cùng phân khúc A-SUV, VinFast VF 5 và Toyota Raize là hai mẫu xe được nhiều khách hàng tiếp cận nhất. Nếu bạn đang phân vân vì không biết nên chọn ô tô ứng dụng công nghệ “xanh” mới hay oto dùng xăng truyền thống, thì hãy tham khảo bài so sánh xe VinFast VF 5 và Toyota Raize dưới đây từ Carpla.
+Nội Dung Chính
+So sánh xe VinFast VF 5 và Toyota Raize về giá bán
+So sánh xe VinFast VF 5 và Toyota Raize về thiết kế ngoại thất
+2.1 Kích thước
+2.2 Ngoại thất
+So sánh xe VinFast VF 5 và Toyota Raize về thiết kế nội thất
+So sánh xe VinFast VF 5 và Toyota Raize về động cơ, chế độ an toàn
+Lời kết
+So sánh xe VinFast VF 5 và Toyota Raize về giá bán
+VinFast VF 5 xứng đáng là một trong những thương hiệu xe oto Việt đầu tiên có sức mạnh động cơ đang kinh ngạc. Từ ngày 10/12/2022, hãng xe VinFast đã chính thức ra mắt mẫu xe điện VF5 Plus tại thị trường Việt Nam. Mẫu xe thuộc phân khúc hạng A, đến nay chưa có đối thủ cạnh tranh khi thị trường xe ô tô điện tại nước ta chưa thực sự phổ biến.
+VF5 có thể có đối thủ lớn là Toyota Raize dùng động cơ chạy xăng thuộc phân khúc A+/B-. Xet về giá bán ở thời điểm hiện tại, xe VinFast VF 5 có mức giá 458 triệu đồng (chưa bao gồm pin) và khoảng 538 triệu đồng tùy theo lựa chọn pin kèm theo xe.
+Trong khi giá bán lẻ của Toyota Raize hiện ở mức từ 547 – 563 triệu đồng tùy theo tùy chọn ngoại thất. Giá xe lăn bánh hợp pháp từ 507 – 625 triệu đồng. Giá xe lăn bánh có thể lên đến 652 triệu đồng. Như vậy nhìn vào con số, có thể dễ dàng nhận thấy ô tô điện VF 5 có giá rẻ hơn xe xăng Raize.
+VinFast VF 5 và Toyota Raize có chút chênh lệch về giá bán
+VinFast VF 5 và Toyota Raize có chút chênh lệch về giá bán
+2. So sánh xe VinFast VF 5 và Toyota Raize về thiết kế ngoại thất
+Diện mạo bên ngoài cả VinFast VF 5 và Toyota Raize đều hướng đến phong cách riêng biệt để hướng đến những nhóm đối tượng khác nhau. Nếu Raize là phong cách trẻ trung, năng động thì VF 5 là ngoại hình rắn chắc, mạnh mẽ, thể thao. Xét về các phương diện thì sự khác biệt của 2 xe như sau:
+2.1 Kích thước
+VinFast VF 5 sở hữu số đo ngắn và thấp hơn đối thủ nhà Toyota nhưng bù lại có chiều rộng nhỉnh hơn. Xét về khoảng sáng gầm – độ cao gầm xe, mẫu xe điện của VinFast cũng thấp hơn xe nhà nhà Toyota gần 20mm. Dưới đây là thông số chi tiết về kích thước của 2 xe:
+2.2 Ngoại thất
+Trang bị của 2 mẫu A-SUV này có nhiều nhiều điểm tương đồng. Hai xe đều sở hữu gương chiếu hậu có thể chỉnh/gập điện có thiết kế tích hợp báo rẽ cùng mâm bánh la-zăng 17 inch và đèn hậu công nghệ LED. Tuy nhiên, đèn chiếu sáng trước và đèn xi nhan vẫn là công nghệ Halogen trên VF 5 chứ không phải công nghệ LED như đối thủ.
+Dưới đây là bảng liệt kê các trang bị có trên 2 xe để bạn dễ so sánh hơn:
+So sánh xe VinFast VF 5 và Toyota Raize về trang bị ngoại thất
+So sánh xe VinFast VF 5 và Toyota Raize về trang bị ngoại thất
+3. So sánh xe VinFast VF 5 và Toyota Raize về thiết kế nội thất
+Không gian nội thất khoang lái và hàng ghế sau trên VinFast VF 5 và Toyota Raize đều hướng đến phong cách thiết kế tối giản, hiện đại chứ không quá cầu kỳ. Vì đây là xu hướng thiết kế nội thất yêu thích của nhóm khách hàng trẻ tuổi. Trong đó, VF 5 được khách hàng đánh giá có sự trẻ trung, tiên tiến, tiện lợi hơn.
+Cả hai xe đều có trang bị tiện nghi giống như như: vô lăng 3 chấu, 3 đồng hồ thông số sau vô-lăng màn hình LCD kích thước 7 inch, chìa khóa thông minh, phanh tay cơ. Tuy nhiên so sánh về các trang bị khác thì VinFast VF 5 có thua kém hơn, một phần vì giá bán thấp hơn nên đi kèm trang bị xe cũng bị lược giản đi ít nhiều.
+Xem thêm: So sánh Toyota Vios và Hyundai Accent xe nào hợp với bạn
+Xem thêm: So sánh VinFast Fadil 2021 và Honda Brio 2021
+Dưới đây là bảng liệt kê các nội thất cơ bản trong xe Toyota Raize và VinFast VF 5 giúp bạn dễ so sánh:
+So sánh xe VinFast VF 5 và Toyota Raize về trang bị nội thất cơ bản
+So sánh xe VinFast VF 5 và Toyota Raize về trang bị nội thất cơ bản
+4. So sánh xe VinFast VF 5 và Toyota Raize về động cơ, chế độ an toàn
+Động cơ VF5 được trang bị là động cơ điện, có thể sản sinh công suất tối đa 134 mã lực (100 kW) đi kèm mô-men xoắn cực đại 135 Nm. Xe sở hữu pin Lithium dung lượng 37,23 kWh, quãng đường chuyển tối đa 300 km cho mỗi lần sạc đầy. Xe đủ đáp ứng tốt nhu cầu bạn lại hàng ngày trong nội đô hay ngoại thành.
+Xét về xe Raize sử dụng động cơ xăng 1.0L Turbo sản sinh mạnh 98 mã lực và 140 mô men xoắn. Động cơ xăng của xe đem lại sự tiện lợi với nhóm khách hàng thường xuyên di chuyển xe đường dài, tuy nhiên xét về công suất thì động cơ VF5 mạnh hơn.
+Động cơ VinFast 5 được cho là mạnh mẽ hơn đối thủ Toyota Raize
+Động cơ VinFast 5 được cho là mạnh mẽ hơn đối thủ Toyota Raize
+Về công nghệ an toàn, VF 5 cũng nhỉnh hơn Toyota Raize khi có tính năng an toàn về cảnh báo, giám sát áp suất lốp, cảnh báo giao thông và camera 360 độ phía sau. Thêm nữa, xe còn có các tính năng an toàn tiên tiến như: Ga hành trình, cảnh báo nguy hiểm khi mở cửa xe, hỗ trợ phanh khẩn cấp,…
+Trong khi Raize đến tính năng kiểm soát hành trình cũng không được trang bị. Xe có những trang bị cơ bản về an toàn như: Cảnh báo điểm mù, hỗ trợ đỗ xe phía sau, hỗ trợ khởi hành ngang dốc, chống bó cứng phanh. Các tính năng này đều có trên VinFast VF 5.
+Xem thêm: So sánh Vinfast Fadil và KIA Morning: Lựa chọn hàng đầu
+Xem thêm: So sánh xe Haval H6 HEV 2023 và Hyundai Tucson 2023
+Xe VinFast VF 5 và Toyota Raize đều có những lợi thế riêng
+Xe VinFast VF 5 và Toyota Raize đều có những lợi thế riêng
+5. Lời kết
+Trên đây thông tin chi tiết so sánh xe VinFast VF 5 và Toyota Raize giúp bạn đọc hiểu hơn về từng mẫu xe này. Mỗi xe đều có ưu nhược điểm riêng, nên hãy cân nhắc dựa trên nhu cầu sử dụng thực tế. Nếu bạn đang quan tâm đến giá xe cũ đã qua sử dụng, hãy liên hệ với Carpla để dễ dàng sở hữu mẫu xe bạn yêu thích, phù hợp nhu cầu với giá tốt nhất.
+Nếu bạn có nhu cầu mua xe VinFast VF 5 cũ hay Toyota Raize cũ thì có thể tham khảo kho xe tại Carpla. Quy trình kiểm định 160 bước nghiêm ngặt, bảo hành 12 tháng hoặc 20.000km. Bạn hoàn toàn có thể an tâm vững lái khi mua xe ô tô cũ tại Carpla.
+"""
+
+OUTPUT-HTML:
+```html
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infographic: So Sánh VinFast VF 5 vs. Toyota Raize</title>
+
+    <!-- 
+        PHÂN TÍCH & LÊN Ý TƯỞNG (BẮT BUỘC)
+
+        1. Phân tích & Tóm tắt Nội dung:
+        - Thông điệp chính: So sánh giữa một mẫu xe điện (VF 5) và một mẫu xe xăng (Raize) trong cùng phân khúc A-SUV, xoay quanh câu hỏi "Có nên chọn công nghệ xanh?".
+        - Các điểm dữ liệu quan trọng:
+          - Giá bán: VF 5 rẻ hơn (458-538tr) so với Raize (547-652tr).
+          - Kích thước: Tương đồng, VF 5 rộng hơn nhưng ngắn và thấp hơn.
+          - Ngoại thất: Raize có đèn LED, VF 5 dùng Halogen. Cả hai có mâm 17 inch.
+          - Nội thất: Thiết kế tối giản, VF 5 được đánh giá hiện đại hơn nhưng ít trang bị hơn do giá rẻ.
+          - Động cơ: VF 5 mạnh hơn về công suất (134hp vs 98hp), Raize nhỉnh hơn về mô-men xoắn (140Nm vs 135Nm).
+          - An toàn: VF 5 vượt trội với nhiều tính năng ADAS mà Raize không có (ga hành trình, phanh khẩn cấp, cảnh báo mở cửa).
+
+        2. Cấu trúc & Kịch bản Thuyết trình:
+        - Mở đầu: Đặt ra câu hỏi "Công nghệ xanh hay Xăng truyền thống?" với 2 mẫu xe đại diện.
+        - Section 1 (Điểm nhấn chính): Các thẻ card so sánh nhanh về 3 yếu tố quyết định: Giá bán, Sức mạnh, An toàn.
+        - Section 2 (So sánh Hiệu năng): Biểu đồ cột nhóm để so sánh trực quan Công suất và Mô-men xoắn.
+        - Section 3 (So sánh An toàn): Bảng so sánh chi tiết các tính năng an toàn, làm nổi bật lợi thế của VF 5.
+        - Section 4 (Chi phí Vận hành): Thêm một góc nhìn quan trọng về chi phí nhiên liệu & bảo dưỡng dài hạn, một điểm mạnh cốt lõi của xe điện.
+        - Section 5 (Chân dung Khách hàng & Kết luận): Đưa ra khuyến nghị dựa trên nhu cầu và ưu tiên của người dùng.
+
+        3. Lựa chọn Hình thức Trực quan hóa:
+        - Hiệu năng (Công suất & Mô-men xoắn) -> Biểu đồ Cột Nhóm (Chart.js): Phù hợp nhất để so sánh trực tiếp 2 chỉ số giữa 2 đối tượng.
+        - An toàn -> Bảng HTML (Tailwind CSS): Rõ ràng, dễ theo dõi khi có nhiều tính năng dạng có/không. Sử dụng icon để tăng tính trực quan.
+        - Điểm nhấn & Chi phí -> Thẻ Card (Tailwind CSS): Hiệu quả để trình bày các con số và thông điệp ngắn gọn, dễ tiêu hóa.
+
+        4. Bảng màu: Electric Volt
+        - Xanh lá (Chủ đạo cho VF 5/Công nghệ xanh): #16a34a (green-600), #dcfce7 (green-100)
+        - Đỏ (Chủ đạo cho Raize/Xăng): #dc2626 (red-600), #fee2e2 (red-100)
+        - Xanh dương (Nhấn mạnh công nghệ): #2563eb (blue-600)
+        - Nền & Chữ: #f8fafc (slate-50), #334155 (slate-700), #0f172a (slate-900)
+    -->
+
+    <!-- CDNs -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+        }
+        .chart-container {
+            position: relative;
+            height: 400px;
+            width: 100%;
+            max-width: 800px;
+            margin: auto;
+        }
+        .gradient-title {
+            background: linear-gradient(90deg, #16a34a, #dc2626);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .icon-check {
+            color: #16a34a; /* green-600 */
+        }
+        .icon-times {
+            color: #dc2626; /* red-600 */
+        }
+        .card-hover-effect {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .card-hover-effect:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto p-6 md:p-10">
+        
+        <!-- ======================= 1. HEADER ======================= -->
+        <header class="text-center mb-16">
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-4 text-slate-900">Cuộc Đối Đầu Phân Khúc A-SUV</h1>
+            <p class="text-xl md:text-2xl text-slate-600 max-w-3xl mx-auto gradient-title font-bold">VinFast VF 5 vs. Toyota Raize</p>
+            <p class="text-lg text-slate-600 max-w-3xl mx-auto mt-2">Công nghệ "Xanh" hay Động cơ Xăng truyền thống?</p>
+        </header>
+
+        <!-- ======================= 2. NỘI DUNG CHÍNH ======================= -->
+        <main class="space-y-20">
+            
+            <!-- SECTION 2.1: Các thẻ tóm tắt điểm chính -->
+            <section id="highlights">
+                <h2 class="text-3xl font-bold text-center mb-10 flex items-center justify-center gap-x-3"><i class="fa-solid fa-star text-yellow-400"></i>So Sánh Nhanh 3 Yếu Tố Then Chốt</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Card Giá Bán -->
+                    <div class="bg-white p-6 rounded-2xl shadow-lg text-center card-hover-effect border-b-4 border-green-500">
+                        <div class="text-5xl text-green-500 mb-4"><i class="fa-solid fa-tags"></i></div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-2">Giá Bán Hấp Dẫn Hơn</h3>
+                        <p class="text-slate-600">VinFast VF 5 có giá niêm yết (kèm pin) rẻ hơn Toyota Raize bản cao nhất tới hơn</p>
+                        <p class="text-4xl font-extrabold text-green-600 mt-2">94 TRIỆU</p>
+                    </div>
+                    <!-- Card Sức Mạnh -->
+                    <div class="bg-white p-6 rounded-2xl shadow-lg text-center card-hover-effect border-b-4 border-blue-500">
+                        <div class="text-5xl text-blue-500 mb-4"><i class="fa-solid fa-gauge-high"></i></div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-2">Sức Mạnh Vượt Trội</h3>
+                        <p class="text-slate-600">Động cơ điện của VF 5 cho công suất lớn hơn động cơ xăng 1.0L Turbo của Raize tới</p>
+                        <p class="text-4xl font-extrabold text-blue-600 mt-2">36 MÃ LỰC</p>
+                    </div>
+                    <!-- Card An Toàn -->
+                    <div class="bg-white p-6 rounded-2xl shadow-lg text-center card-hover-effect border-b-4 border-red-500">
+                        <div class="text-5xl text-red-500 mb-4"><i class="fa-solid fa-shield-halved"></i></div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-2">An Toàn Nâng Cao</h3>
+                        <p class="text-slate-600">VF 5 được trang bị nhiều tính năng hỗ trợ lái ADAS mà Raize không có, mang lại sự an tâm tối đa.</p>
+                        <p class="text-2xl font-bold text-red-600 mt-2">VF 5 DẪN TRƯỚC</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2.2: Biểu đồ Hiệu Năng -->
+            <section id="performance-chart">
+                 <h2 class="text-3xl font-bold text-center mb-4 flex items-center justify-center gap-x-3"><i class="fa-solid fa-bolt text-blue-500"></i>So Sánh Hiệu Năng Động Cơ</h2>
+                 <p class="text-center text-slate-600 max-w-3xl mx-auto mb-10">Động cơ điện của VF 5 thể hiện ưu thế rõ rệt về công suất, trong khi động cơ xăng của Raize nhỉnh hơn một chút về mô-men xoắn tức thời.</p>
+                 <div class="bg-white p-6 md:p-8 rounded-2xl shadow-xl">
+                    <div class="chart-container">
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+                    <p class="text-center text-sm text-slate-500 mt-4">VF 5 mạnh mẽ hơn trong các pha tăng tốc, trong khi Raize cho cảm giác "bốc" ở dải vòng tua đầu nhờ động cơ Turbo.</p>
+                 </div>
+            </section>
+
+             <!-- SECTION 2.3: Bảng so sánh an toàn -->
+             <section id="safety-table">
+                <h2 class="text-3xl font-bold text-center mb-10 flex items-center justify-center gap-x-3"><i class="fa-solid fa-list-check text-red-500"></i>Bảng So Sánh Tính Năng An Toàn</h2>
+                <div class="overflow-x-auto bg-white rounded-2xl shadow-xl p-2">
+                    <table class="w-full min-w-max text-center">
+                        <thead class="bg-slate-100">
+                            <tr>
+                                <th class="p-4 text-left text-sm font-semibold text-slate-600 w-2/4">Tính Năng</th>
+                                <th class="p-4 text-sm font-semibold text-slate-600">
+                                    <span class="text-green-600 font-bold">VF 5</span>
+                                </th>
+                                <th class="p-4 text-sm font-semibold text-slate-600">
+                                    <span class="text-red-600 font-bold">Raize</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200">
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-4 text-left font-medium">Hỗ trợ phanh khẩn cấp (BA)</td>
+                                <td><i class="fas fa-check-circle text-2xl icon-check"></i></td>
+                                <td><i class="fas fa-check-circle text-2xl icon-check"></i></td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-4 text-left font-medium">Cảnh báo điểm mù</td>
+                                <td><i class="fas fa-check-circle text-2xl icon-check"></i></td>
+                                <td><i class="fas fa-check-circle text-2xl icon-check"></i></td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-4 text-left font-medium">Camera lùi / Cảm biến lùi</td>
+                                <td><i class="fas fa-check-circle text-2xl icon-check"></i></td>
+                                <td><i class="fas fa-check-circle text-2xl icon-check"></i></td>
+                            </tr>
+                            <tr class="bg-green-50 hover:bg-green-100">
+                                <td class="p-4 text-left font-bold text-green-700">Giám sát áp suất lốp</td>
+                                <td><i class="fas fa-check-circle text-2xl icon-check"></i></td>
+                                <td><i class="fas fa-times-circle text-2xl icon-times"></i></td>
+                            </tr>
+                             <tr class="bg-green-50 hover:bg-green-100">
+                                <td class="p-4 text-left font-bold text-green-700">Ga hành trình (Cruise Control)</td>
+                                <td><i class="fas fa-check-circle text-2xl icon-check"></i></td>
+                                <td><i class="fas fa-times-circle text-2xl icon-times"></i></td>
+                            </tr>
+                             <tr class="bg-green-50 hover:bg-green-100">
+                                <td class="p-4 text-left font-bold text-green-700">Cảnh báo giao thông phía sau</td>
+                                <td><i class="fas fa-check-circle text-2xl icon-check"></i></td>
+                                <td><i class="fas fa-times-circle text-2xl icon-times"></i></td>
+                            </tr>
+                             <tr class="bg-green-50 hover:bg-green-100">
+                                <td class="p-4 text-left font-bold text-green-700">Cảnh báo mở cửa</td>
+                                <td><i class="fas fa-check-circle text-2xl icon-check"></i></td>
+                                <td><i class="fas fa-times-circle text-2xl icon-times"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+             </section>
+
+             <!-- SECTION 2.4: Chi Phí Vận Hành -->
+            <section id="running-cost">
+                <h2 class="text-3xl font-bold text-center mb-10 flex items-center justify-center gap-x-3"><i class="fa-solid fa-wallet text-green-500"></i>Góc Nhìn Dài Hạn: Chi Phí Vận Hành</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Card Chi Phí Nhiên Liệu -->
+                    <div class="bg-white p-8 rounded-2xl shadow-lg border-l-8 border-green-500">
+                        <h3 class="text-xl font-bold text-green-700 mb-4 flex items-center gap-3"><i class="fa-solid fa-leaf"></i>Chi Phí Năng Lượng</h3>
+                        <p class="text-slate-700"><strong>VF 5:</strong> Chi phí sạc điện rẻ hơn đáng kể so với đổ xăng, đặc biệt khi sạc tại nhà. Không phụ thuộc vào biến động giá xăng dầu.</p>
+                    </div>
+                     <!-- Card Chi Phí Bảo Dưỡng -->
+                    <div class="bg-white p-8 rounded-2xl shadow-lg border-l-8 border-red-500">
+                        <h3 class="text-xl font-bold text-red-700 mb-4 flex items-center gap-3"><i class="fa-solid fa-gas-pump"></i>Chi Phí Năng Lượng</h3>
+                        <p class="text-slate-700"><strong>Raize:</strong> Chi phí phụ thuộc hoàn toàn vào giá xăng. Mạng lưới trạm xăng rộng khắp, tiện lợi cho các chuyến đi xa không định trước.</p>
+                    </div>
+                </div>
+            </section>
+             
+             <!-- SECTION 2.5: Kết Luận -->
+            <section id="conclusion">
+                <h2 class="text-3xl font-bold text-center mb-10 flex items-center justify-center gap-x-3"><i class="fa-solid fa-map-signs text-slate-500"></i>Lựa Chọn Nào Dành Cho Bạn?</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-green-50 p-8 rounded-2xl text-center border-t-8 border-green-600 card-hover-effect">
+                        <div class="text-6xl mb-4">🔋</div>
+                        <h3 class="font-bold text-2xl text-green-700 mb-2">Chọn VinFast VF 5</h3>
+                        <p class="text-slate-600">Nếu bạn là người yêu công nghệ, di chuyển chủ yếu trong đô thị, ưu tiên sức mạnh, an toàn và muốn tiết kiệm chi phí vận hành lâu dài.</p>
+                    </div>
+                    <div class="bg-red-50 p-8 rounded-2xl text-center border-t-8 border-red-600 card-hover-effect">
+                        <div class="text-6xl mb-4">⛽️</div>
+                        <h3 class="font-bold text-2xl text-red-700 mb-2">Chọn Toyota Raize</h3>
+                        <p class="text-slate-600">Nếu bạn thường xuyên đi tỉnh, đề cao sự tiện lợi của mạng lưới trạm xăng và tin tưởng vào giá trị thương hiệu Nhật Bản đã được khẳng định.</p>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- ======================= 3. FOOTER ======================= -->
+        <footer class="text-center text-sm text-slate-500 mt-16 py-6 border-t border-slate-200">
+            Infographic so sánh VinFast VF 5 và Toyota Raize được thiết kế bởi AI.
+        </footer>
+    </div>
+
+    <!-- ======================= SCRIPT FOR CHARTS ======================= -->
+    <script>
+        // Hàm xử lý nhãn dài (bắt buộc)
+        function wrapLabel(label, maxWidth) {
+            const words = label.split(' ');
+            let line = '';
+            const lines = [];
+
+            if (label.length <= maxWidth) {
+                return [label];
+            }
+
+            for (let i = 0; i < words.length; i++) {
+                const testLine = line + words[i] + ' ';
+                if (testLine.length > maxWidth && i > 0) {
+                    lines.push(line.trim());
+                    line = words[i] + ' ';
+                } else {
+                    line = testLine;
+                }
+            }
+            lines.push(line.trim());
+            return lines;
+        }
+
+        // Callback cho tooltip (bắt buộc)
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+              return label.join(' ');
+            }
+            return label;
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const performanceCtx = document.getElementById('performanceChart').getContext('2d');
+            
+            new Chart(performanceCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Công Suất (mã lực)', 'Mô-men Xoắn (Nm)'],
+                    datasets: [
+                        {
+                            label: 'VinFast VF 5',
+                            data: [134, 135],
+                            backgroundColor: '#2563eb', // blue-600
+                            borderColor: '#1d4ed8', // blue-700
+                            borderWidth: 1,
+                            borderRadius: 5
+                        },
+                        {
+                            label: 'Toyota Raize',
+                            data: [98, 140],
+                            backgroundColor: '#9ca3af', // gray-400
+                            borderColor: '#6b7280', // gray-500
+                            borderWidth: 1,
+                            borderRadius: 5
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#334155',
+                                font: { size: 14, family: 'Be Vietnam Pro' },
+                                padding: 20
+                            }
+                        },
+                        tooltip: {
+                            enabled: true,
+                            callbacks: {
+                                title: tooltipTitleCallback
+                            },
+                            backgroundColor: '#0f172a',
+                            titleColor: '#f8fafc',
+                            bodyColor: '#cbd5e1',
+                            titleFont: { size: 14, weight: 'bold' },
+                            bodyFont: { size: 12 },
+                            padding: 12,
+                            cornerRadius: 8,
+                            boxPadding: 4,
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: '#e2e8f0' // slate-200
+                            },
+                            ticks: {
+                                color: '#475569' // slate-600
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                color: '#334155', // slate-700
+                                font: { size: 14, weight: '600' }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+```
+
+
+# VÍ DỤ 3:
+
+"""
+So Sánh iPhone 15 Pro Max và iPhone 16 Pro Max: Báo Cáo Phân Tích Chuyên Sâu1. Tóm Tắt Điều HànhiPhone 15 Pro Max, mẫu điện thoại hàng đầu của Apple ra mắt năm 2023, đã gây ấn tượng với thiết kế khung titan, hiệu năng mạnh mẽ và hệ thống camera tiên tiến. Trong khi đó, iPhone 16 Pro Max, dự kiến ra mắt vào năm 2024, hứa hẹn sẽ tiếp tục những cải tiến này với màn hình lớn hơn, bộ vi xử lý thế hệ mới và những nâng cấp đáng chú ý khác. Báo cáo này cung cấp một phân tích so sánh chi tiết giữa hai mẫu điện thoại này, nhằm mục đích cung cấp thông tin toàn diện cho độc giả về những khác biệt và điểm tương đồng, từ đó hỗ trợ quyết định mua hàng hoặc nâng cấp.2. Giới ThiệuiPhone 15 Pro Max đã ra mắt như một đỉnh cao công nghệ của Apple trong năm 2023, đánh dấu sự chuyển đổi sang vật liệu titan cao cấp cho khung viền.1 Với những tính năng vượt trội, chiếc điện thoại này nhanh chóng khẳng định vị thế của mình trên thị trường smartphone cao cấp. Tiếp nối thành công đó, iPhone 16 Pro Max được kỳ vọng sẽ là một bước tiến lớn, kế thừa và phát triển những đổi mới từ người tiền nhiệm.2 Việc so sánh chi tiết hai mẫu điện thoại này có ý nghĩa quan trọng đối với người tiêu dùng đang cân nhắc nâng cấp trong hệ sinh thái của Apple hoặc chuyển đổi từ các thương hiệu khác. Báo cáo này sẽ đi sâu vào các khía cạnh then chốt như thời điểm ra mắt và giá bán, thiết kế và vật liệu, công nghệ màn hình, hiệu năng xử lý và hệ thống camera để làm rõ những khác biệt và cải tiến giữa hai thiết bị.3. Thời Điểm Ra Mắt và Động Thái Giá Bán
+iPhone 15 Pro Max:
+Ngày công bố chính thức: 12 tháng 9 năm 2023.1
+Ngày bắt đầu nhận đặt hàng trước: 15 tháng 9 năm 2023.1
+Ngày phát hành chính thức: 22 tháng 9 năm 2023.1
+Giá bán khởi điểm cho các phiên bản dung lượng khác nhau (256GB, 512GB, 1TB) lần lượt là 1199 USD, 1399 USD và 1599 USD.1
+Giá thị trường hiện tại từ các nhà bán lẻ khác nhau (ví dụ: Amazon, Gazelle, Spectrum, Verizon, T-Mobile, Best Buy, FreedomPop, Apple) có sự dao động tùy thuộc vào nhà mạng và tình trạng sản phẩm (mới hoặc đã qua sử dụng).9
+Nhận định: iPhone 15 Pro Max đã có sự tăng giá so với phiên bản tiền nhiệm, đặc biệt là với việc loại bỏ tùy chọn bộ nhớ 128GB.8 Điều này cho thấy xu hướng tăng giá cho các mẫu iPhone cao cấp nhất của Apple. Việc Apple quyết định loại bỏ phiên bản 128GB cho iPhone 15 Pro Max và bắt đầu từ 256GB đã đẩy mức giá khởi điểm lên cao hơn. Điều này có thể xuất phát từ chi phí linh kiện tăng, chiến lược thúc đẩy người dùng mua các phiên bản bộ nhớ lớn hơn, hoặc phản ánh tính chất cao cấp của dòng "Pro Max".
+iPhone 16 Pro Max:
+Ngày công bố dự kiến: Dựa trên lịch sử ra mắt sản phẩm của Apple (đầu tháng 9), có khả năng vào khoảng ngày 9 tháng 9 năm 2024.2
+Ngày bắt đầu nhận đặt hàng trước dự kiến: Thứ Sáu sau ngày công bố, có khả năng là ngày 13 tháng 9 năm 2024.2
+Ngày phát hành chính thức dự kiến: Thứ Sáu, khoảng mười ngày sau ngày công bố, có khả năng là ngày 20 tháng 9 năm 2024.2
+Giá bán đồn đoán hoặc đã được công bố cho các cấu hình bộ nhớ khác nhau (có khả năng bắt đầu từ 256GB, với các tùy chọn 512GB và 1TB) tương đương với iPhone 15 Pro Max, khởi điểm từ 1199 USD.18
+Nhận định: iPhone 16 Pro Max dự kiến sẽ duy trì mức giá khởi điểm tương đương với iPhone 15 Pro Max.18 Tuy nhiên, cần lưu ý đến những biến động tiềm ẩn do điều kiện thị trường và chi phí linh kiện. Mặc dù có những nâng cấp tiềm năng về công nghệ và tính năng, Apple dường như đang giữ mức giá khởi điểm của iPhone 16 Pro Max ổn định so với phiên bản tiền nhiệm. Đây có thể là một quyết định chiến lược để duy trì tính cạnh tranh trên thị trường smartphone cao cấp hoặc cho thấy chi phí sản xuất không tăng đáng kể.
+Nhận định: Đã có một số chậm trễ trong việc giao hàng iPhone 15 Pro Max sau khi ra mắt, cho thấy khả năng chuỗi cung ứng bị hạn chế hoặc nhu cầu cao.8 Đây là một yếu tố mà người mua tiềm năng của iPhone 16 Pro Max nên lưu ý. Sự chậm trễ ban đầu trong việc giao hàng iPhone 15 Pro Max cho thấy nhu cầu đối với mẫu máy cao cấp này có thể vượt quá nguồn cung tại thời điểm ra mắt. Điều này có thể là do thiết kế khung titan mới hoặc hệ thống camera tiên tiến. Người tiêu dùng quan tâm đến iPhone 16 Pro Max nên chuẩn bị tinh thần cho khả năng xảy ra tình trạng chậm trễ tương tự, đặc biệt đối với các cấu hình hoặc màu sắc phổ biến.
+Bước Tiến trong Thiết Kế và Vật Liệu
+iPhone 15 Pro Max:
+Kích thước và trọng lượng: Cao 159.9 mm, Rộng 76.7 mm, Dày 8.25 mm, Nặng 221 gram.5
+Vật liệu: Khung titan Grade 5, mặt trước Ceramic Shield, mặt sau kính mờ nhám.1
+Ngôn ngữ thiết kế: Vỏ ngoài được thiết kế lại với các cạnh bo tròn, màn hình và mặt lưng kính hơi cong, viền màn hình mỏng hơn (1.55 mm).1
+Màu sắc hiện có: Titan đen, Titan trắng, Titan xanh, Titan tự nhiên.1
+Giới thiệu nút Action thay thế cho công tắc tắt tiếng truyền thống.1
+Cổng USB-C thay thế cho cổng Lightning.5
+Nhận định: Việc chuyển sang khung titan đã mang lại một thiết bị nhẹ hơn đáng kể so với các mẫu Pro trước đây sử dụng thép không gỉ.1 Đây là một cải tiến đáng kể về mặt công thái học. Việc sử dụng titan, vốn nổi tiếng với tỷ lệ sức mạnh trên trọng lượng cao, đã trực tiếp góp phần làm giảm trọng lượng của iPhone 15 Pro Max. Điều này giúp người dùng cầm và mang theo thiết bị thoải mái hơn trong thời gian dài, giải quyết một mối lo ngại thường gặp đối với các smartphone có kích thước lớn.
+Nhận định: Một số thử nghiệm độ bền cho thấy mặt lưng kính của iPhone 15 Pro Max có thể dễ vỡ hơn khi chịu áp lực.5 Tuy nhiên, các thử nghiệm khác lại cho thấy độ bền tổng thể tuyệt vời.5 Điều này cho thấy có thể có sự đánh đổi với thiết kế hoặc quy trình sản xuất mới. Những thay đổi về cấu trúc trong iPhone 15 Pro Max, đặc biệt là cách gắn mặt lưng kính, có thể đã tạo ra một điểm yếu khi chịu một số loại áp lực nhất định. Tuy nhiên, thiết bị vẫn hoạt động tốt trong các đánh giá độ bền rộng hơn, cho thấy đây có thể là một điểm yếu cụ thể hơn là một vấn đề phổ biến.
+iPhone 16 Pro Max:
+Kích thước và trọng lượng dự kiến: Lớn hơn và nặng hơn một chút so với iPhone 15 Pro Max (Cao 163 mm, Rộng 77.6 mm, Dày 8.25 mm, Nặng 227 gram).19
+Vật liệu: Có khả năng tiếp tục sử dụng khung titan Grade 5, có thể với kết cấu phun cát siêu nhỏ tinh tế hơn, mặt trước Ceramic Shield thế hệ mới nhất và mặt sau kính mờ nhám.26
+Thay đổi thiết kế đồn đoán: Viền màn hình mỏng hơn, mang lại viền mỏng nhất trên mọi sản phẩm của Apple.3
+Màu sắc dự kiến: Titan đen, Titan trắng, Titan tự nhiên và màu Titan sa mạc mới (thay thế cho Titan xanh).19
+Tiếp tục sử dụng nút Action và cổng USB-C.47
+Giới thiệu nút điều khiển Camera mới.3
+Thiết kế bên trong được cải thiện để tản nhiệt tốt hơn, có thể sử dụng khung cấu trúc bên trong bằng nhôm tái chế 100% với lớp phủ graphite.19
+Nhận định: iPhone 16 Pro Max tập trung vào việc tinh chỉnh thiết kế với viền mỏng hơn để tối đa hóa kích thước màn hình trong một kích thước vật lý tương tự.3 Điều này đáp ứng nhu cầu của người dùng mong muốn màn hình lớn hơn mà không làm tăng đáng kể kích thước tổng thể của thiết bị. Bằng cách giảm kích thước của viền xung quanh màn hình, Apple có thể tăng tỷ lệ màn hình trên thân máy, mang lại trải nghiệm xem đắm chìm hơn. Điều này cho phép màn hình 6.9 inch lớn hơn trên iPhone 16 Pro Max so với màn hình 6.7 inch của 15 Pro Max, trong khi vẫn giữ kích thước tổng thể tương đối giống nhau.
+Nhận định: Việc giới thiệu nút điều khiển Camera cho thấy sự tập trung vào việc nâng cao trải nghiệm chụp ảnh với một nút điều khiển vật lý chuyên dụng.3 Tuy nhiên, các đánh giá ban đầu cho thấy vị trí và tiện ích của nó có thể mang tính chủ quan.48 Việc thêm một nút vật lý dành riêng cho các chức năng của camera có thể mang lại khả năng truy cập nhanh hơn và trải nghiệm chụp ảnh xúc giác hơn, tương tự như máy ảnh truyền thống. Tuy nhiên, vị trí tối ưu và phạm vi chức năng có thể truy cập thông qua nút này sẽ rất quan trọng đối với việc sử dụng rộng rãi và tính hữu ích của nó đối với người dùng. Một số người dùng có thể thấy các điều khiển trên màn hình trực quan hơn hoặc vị trí của nút điều khiển Camera bất tiện.
+Nhận định: Thiết kế tản nhiệt được cải thiện trong iPhone 16 Pro Max nhằm giải quyết tình trạng giảm hiệu năng tiềm ẩn trong quá trình sử dụng các tác vụ nặng như chơi game.19 Điều này cho thấy sự tập trung vào hiệu năng bền vững. Khả năng tản nhiệt tốt hơn là rất quan trọng để duy trì hiệu năng cao nhất trong thời gian dài, đặc biệt đối với các ứng dụng đòi hỏi nhiều tài nguyên như game di động cao cấp hoặc quay video kéo dài. Kiến trúc bên trong mới với các thành phần nhôm và graphite sẽ cho phép chip A18 Pro hoạt động hiệu quả hơn mà không bị quá nhiệt và giảm tốc độ xung nhịp.
+Thông Số Kỹ Thuật và Công Nghệ Màn Hình
+iPhone 15 Pro Max:
+Kích thước màn hình: 6.7 inch (đường chéo).4
+Độ phân giải: 2796 x 1290 pixel.4
+Mật độ điểm ảnh: 460 ppi.4
+Công nghệ hiển thị: Màn hình Super Retina XDR (OLED).4
+Tần số quét: Công nghệ ProMotion với tần số quét thích ứng lên đến 120Hz.5
+Độ sáng: Tối đa 1000 nit (tiêu chuẩn), 1600 nit (HDR), 2000 nit (ngoài trời).4
+Tỷ lệ tương phản: 2,000,000:1 (tiêu chuẩn).4
+Tính năng: Dynamic Island, Always-On display, HDR display, True Tone, Wide color (P3), Haptic Touch.4
+iPhone 16 Pro Max:
+Kích thước màn hình: 6.9 inch (đường chéo).19
+Độ phân giải: 2868 x 1320 pixel.19
+Mật độ điểm ảnh: 460 ppi.19
+Công nghệ hiển thị: Màn hình Super Retina XDR (OLED).19
+Tần số quét: Công nghệ ProMotion với tần số quét thích ứng lên đến 120Hz.19
+Độ sáng: Tối đa 1000 nit (tiêu chuẩn), 1600 nit (HDR), 2000 nit (ngoài trời), độ sáng tối thiểu 1 nit.19
+Tỷ lệ tương phản: 2,000,000:1 (tiêu chuẩn).40
+Tính năng: Dynamic Island, Always-On display, HDR display, True Tone, Wide color (P3), Haptic Touch.19
+Nhận định: iPhone 16 Pro Max sở hữu màn hình 6.9 inch lớn hơn so với màn hình 6.7 inch của iPhone 15 Pro Max.19 Điều này đáp ứng nhu cầu của người dùng ưu tiên màn hình lớn hơn cho việc xem phim, chơi game và làm việc đa nhiệm. Kích thước màn hình tăng lên trên iPhone 16 Pro Max mang đến một không gian hiển thị rộng rãi hơn cho việc xem video, chơi game và thực hiện đa nhiệm. Mặc dù độ phân giải cũng có sự tăng nhẹ để duy trì mật độ điểm ảnh tương đương, lợi ích chính vẫn là diện tích màn hình vật lý lớn hơn.
+Nhận định: iPhone 16 Pro Max giới thiệu độ sáng tối thiểu thấp hơn, chỉ 1 nit.19 Điều này có thể cải thiện trải nghiệm xem trong môi trường rất tối. Cài đặt độ sáng tối thiểu thấp hơn có thể giảm mỏi mắt khi sử dụng điện thoại trong môi trường ánh sáng yếu, chẳng hạn như vào ban đêm hoặc trong phòng tối. Điều này mang lại trải nghiệm xem thoải mái hơn bằng cách giảm thiểu cường độ ánh sáng của màn hình.
+Nhận định: Cả hai mẫu điện thoại đều sử dụng màn hình Super Retina XDR OLED với công nghệ ProMotion, cho thấy cam kết nhất quán của Apple đối với trải nghiệm hình ảnh chất lượng cao và mượt mà.5 Việc tiếp tục sử dụng công nghệ OLED đảm bảo màu sắc sống động, màu đen sâu và tỷ lệ tương phản tuyệt vời. Tính năng ProMotion, với tần số quét thích ứng lên đến 120Hz, mang lại khả năng cuộn mượt mà hơn và tương tác nhạy hơn, nâng cao trải nghiệm người dùng tổng thể.
+Hiệu Năng Xử Lý và Điểm Chuẩn
+iPhone 15 Pro Max:
+Chip: Apple A17 Pro (3 nm).5
+CPU: 6 nhân (2 nhân hiệu năng cao tốc độ 3.78 GHz + 4 nhân tiết kiệm điện).5
+GPU: 6 nhân (thiết kế thế hệ thứ bảy của Apple với khả năng dò tia tăng tốc phần cứng).5
+Neural Engine: 16 nhân (35 nghìn tỷ hoạt động mỗi giây).5
+RAM: 8 GB LPDDR5.5
+Điểm chuẩn hiệu năng (Geekbench 6): Đơn nhân khoảng 2883, Đa nhân khoảng 7145, Điểm Metal khoảng 27223.43
+Các đánh giá hiệu năng thực tế nhấn mạnh hoạt động nhanh chóng và mượt mà, có khả năng xử lý các tác vụ đòi hỏi và chơi game cấp độ console.36 Một số đánh giá ghi nhận khả năng giảm hiệu năng do nhiệt trong quá trình chơi game cường độ cao.62
+iPhone 16 Pro Max:
+Chip: Apple A18 Pro (tiến trình 3 nm thế hệ thứ hai - TSMC N3E).3
+CPU: 6 nhân (2 nhân hiệu năng cao + 4 nhân tiết kiệm điện), nhanh hơn tới 15% so với A17 Pro với mức tiêu thụ điện năng ít hơn 20%.3
+GPU: 6 nhân, nhanh hơn tới 20% so với thế hệ trước với khả năng dò tia tăng tốc phần cứng nhanh hơn gấp 2 lần.3
+Neural Engine: 16 nhân, nhanh hơn và hiệu quả hơn, được tối ưu hóa cho Apple Intelligence.3
+RAM: 8 GB LPDDR5X.19
+Điểm chuẩn hiệu năng (Geekbench 6): Đơn nhân khoảng 3436, Đa nhân khoảng 8503, Điểm Metal khoảng 32729.43
+Cải thiện hiệu năng dự kiến: Hiệu năng CPU và GPU được nâng cao, đặc biệt cho các tác vụ AI (Apple Intelligence), và hiệu năng bền vững tốt hơn nhờ thiết kế tản nhiệt được cải thiện.3
+Nhận định: iPhone 16 Pro Max được trang bị chip Apple A18 Pro mới hơn, được xây dựng trên tiến trình 3nm tiên tiến hơn, mang lại hiệu năng vượt trội đáng kể cả về CPU và GPU so với chip A17 Pro trên iPhone 15 Pro Max.3 Điều này có khả năng dẫn đến khả năng đa nhiệm mượt mà hơn, thời gian tải ứng dụng nhanh hơn và trải nghiệm chơi game được nâng cao. Việc chuyển đổi sang tiến trình 3nm thế hệ thứ hai (N3E) cho chip A18 Pro cho phép tăng mật độ bóng bán dẫn và cải thiện hiệu suất năng lượng so với tiến trình 3nm thế hệ đầu tiên (N3B) được sử dụng cho A17 Pro. Điều này dẫn đến tốc độ xung nhịp cao hơn và khả năng xử lý mạnh mẽ hơn cho cả CPU và GPU, mang lại những cải tiến hiệu năng đáng chú ý.
+Nhận định: Neural Engine được nâng cấp và băng thông bộ nhớ tăng lên của chip A18 Pro được tối ưu hóa đặc biệt cho các tính năng Apple Intelligence.3 Điều này cho thấy sự tập trung mạnh mẽ vào khả năng xử lý AI trên thiết bị cho các tác vụ như hỗ trợ viết, tạo ảnh và cải thiện khả năng của Siri. Tuy nhiên, sự sẵn có của các tính năng này có thể được triển khai theo từng giai đoạn.20 Apple Intelligence phụ thuộc rất nhiều vào các thuật toán máy học đòi hỏi sức mạnh xử lý đáng kể. Neural Engine được nâng cấp trong chip A18 Pro cung cấp tài nguyên tính toán cần thiết để các tính năng AI này chạy hiệu quả trên thiết bị. Băng thông bộ nhớ tăng lên tiếp tục hỗ trợ xử lý dữ liệu nhanh hơn, rất quan trọng đối với các tác vụ AI. Tuy nhiên, toàn bộ bộ tính năng Apple Intelligence có thể không có sẵn tại thời điểm ra mắt ban đầu và có thể được triển khai trong các bản cập nhật phần mềm tiếp theo.
+Nhận định: Kết quả điểm chuẩn xác nhận lợi thế hiệu năng rõ rệt của iPhone 16 Pro Max so với iPhone 15 Pro Max trong cả các bài kiểm tra CPU và GPU.43 Điều này cung cấp bằng chứng định lượng về sự cải thiện hiệu năng giữa các thế hệ. Điểm Geekbench, đo hiệu năng CPU trong các tác vụ đơn nhân và đa nhân, cho thấy sự gia tăng đáng kể đối với iPhone 16 Pro Max. Tương tự, điểm Metal, đánh giá hiệu năng GPU, cũng cho thấy sự cải thiện đáng kể. Những kết quả điểm chuẩn này cung cấp các điểm dữ liệu khách quan để hỗ trợ các tuyên bố về hiệu năng xử lý được nâng cao trong mẫu máy mới hơn.
+Khả Năng và Chất Lượng Hệ Thống Camera
+iPhone 15 Pro Max:
+Hệ thống camera sau: Camera chính 48MP (f/1.78), Camera siêu rộng 12MP (f/2.2), Camera tele 12MP 2x (f/1.78), Camera tele 12MP 5x (f/2.8).5
+Khả năng zoom: Zoom quang học 5x, zoom quang học thu nhỏ 2x, phạm vi zoom quang học 10x, zoom kỹ thuật số lên đến 25x.32
+Các tính năng chính: Photonic Engine, Deep Fusion, Smart HDR 5, Chế độ ban đêm, Chế độ chân dung với Focus và Depth Control, quay video ProRes lên đến 4K ở 60 khung hình/giây.32
+Chất lượng hình ảnh: Nhìn chung được đánh giá cao về độ chi tiết, dải động và độ chính xác màu sắc tuyệt vời.36 Ống kính tele 5x là một bổ sung đáng kể.37 Một số người dùng báo cáo vấn đề về ảnh bị mờ hoặc hạt.77
+Chất lượng video: Khả năng quay video tuyệt vời, bao gồm ProRes và Spatial Video.1
+iPhone 16 Pro Max:
+Hệ thống camera sau: Camera Fusion 48MP (Chính, f/1.78), Camera siêu rộng 48MP (f/2.2), Camera tele 12MP 5x (f/2.8). Cũng cho phép Camera tele 12MP 2x (f/1.78) thông qua cảm biến chính.3
+Khả năng zoom: Zoom quang học 5x, zoom quang học thu nhỏ 2x, phạm vi zoom quang học 10x, zoom kỹ thuật số lên đến 25x.40
+Các tính năng chính: Photonic Engine, Deep Fusion, Smart HDR 5, Chế độ ban đêm, Chế độ chân dung với Focus và Depth Control, quay video ProRes lên đến 4K ở 120 khung hình/giây với bộ nhớ ngoài, quay video Log, Academy Color Encoding System, Spatial photos.3 Giới thiệu nút điều khiển Camera.40
+Cải thiện chất lượng hình ảnh dự kiến: Camera siêu rộng 48MP độ phân giải cao hơn cho nhiều chi tiết hơn, bao gồm cả chụp ảnh macro.3 Tốc độ đọc nhanh hơn cho cảm biến chính.3 Cải thiện hiệu suất trong điều kiện ánh sáng yếu.1 Cải thiện Photographic Styles.26
+Cải thiện chất lượng video dự kiến: Quay video 4K 120 khung hình/giây Dolby Vision, cải thiện khả năng thu âm với micrô chất lượng phòng thu và Audio Mix.3
+Nhận định: iPhone 16 Pro Max nâng cấp đáng kể camera siêu rộng lên 48MP, ngang bằng với độ phân giải của camera chính.3 Điều này hứa hẹn mang lại những bức ảnh siêu rộng chi tiết hơn nhiều và cải thiện khả năng chụp macro. Việc tăng độ phân giải của camera siêu rộng từ 12MP lên 48MP cho phép thu được nhiều chi tiết hơn đáng kể trong các bức ảnh góc rộng. Điều này cũng mang lại lợi ích cho chế độ macro, thường sử dụng ống kính siêu rộng, dẫn đến hình ảnh cận cảnh có độ phân giải cao hơn và chi tiết hơn.
+Nhận định: Việc bổ sung khả năng quay video 4K 120 khung hình/giây Dolby Vision trên iPhone 16 Pro Max là một bước tiến lớn trong lĩnh vực quay video di động.3 Điều này mang đến cho người dùng khả năng quay những thước phim chuyển động chậm cực kỳ mượt mà ở độ phân giải rất cao với dải động tuyệt vời. Quay video ở độ phân giải 4K với tốc độ 120 khung hình/giây cho phép ghi lại mức độ chi tiết và độ mượt mà cao hơn nhiều so với tốc độ khung hình tiêu chuẩn. Khi kết hợp với Dolby Vision HDR, các video thu được sẽ có dải động và độ chính xác màu sắc vượt trội, biến iPhone 16 Pro Max trở thành một công cụ mạnh mẽ cho các nhà sáng tạo video.
+Nhận định: iPhone 16 Pro Max vẫn giữ lại ống kính tele 5x zoom quang học, hiện cũng có trên iPhone 16 Pro nhỏ hơn.26 Điều này đảm bảo khả năng tele nhất quán trên cả hai mẫu Pro trong dòng sản phẩm năm 2024. Bằng cách bao gồm ống kính tele 5x zoom quang học trên cả hai mẫu Pro và Pro Max, Apple cung cấp cho người dùng hiệu suất tele nhất quán bất kể kích thước điện thoại ưa thích của họ. Điều này cho phép chụp ảnh và quay video chất lượng cao khi phóng to mà không cần dựa vào zoom kỹ thuật số, vốn có thể làm giảm chất lượng hình ảnh.
+So Sánh Tính Năng Chi TiếtTính NăngiPhone 15 Pro MaxiPhone 16 Pro MaxNgày Ra Mắt22 tháng 9 năm 2023Dự kiến 20 tháng 9 năm 2024Bộ Vi Xử LýApple A17 ProApple A18 ProKích Thước Màn Hình6.7 inch6.9 inchCamera Siêu Rộng12MP48MPQuay Video Tối Đa4K ở 60 fps4K ở 120 fps (Dolby Vision)Nút ActionCóCóĐiều Khiển CameraKhôngCóĐộ Sáng Tối Thiểu-1 nitRAM8 GB LPDDR58 GB LPDDR5XThiết Kế Tản NhiệtTiêu chuẩnCải thiệnWi-FiWi-Fi 6EWi-Fi 7Thời Lượng Pin (Xem Video)Lên đến 29 giờLên đến 33 giờSạc MagSafe15WLên đến 25W (với bộ sạc 30W trở lên)Ảnh Không GianKhôngCóVideo Camera TrướcLên đến 4K ở 60fpsLên đến 4K ở 120fps (Fusion)Nhận định: Bảng so sánh làm nổi bật những nâng cấp chính trên iPhone 16 Pro Max, bao gồm màn hình lớn hơn, camera siêu rộng được cải thiện đáng kể, khả năng quay video được nâng cao và bổ sung nút điều khiển Camera. Mẫu máy mới hơn cũng được hưởng lợi từ bộ vi xử lý mạnh mẽ hơn, Wi-Fi nhanh hơn và thời lượng pin tiềm năng dài hơn. Bằng cách trình bày các thông số kỹ thuật chính cạnh nhau, bảng cung cấp một cái nhìn tổng quan rõ ràng và ngắn gọn về những tiến bộ mà iPhone 16 Pro Max mang lại so với phiên bản tiền nhiệm. Điều này cho phép độc giả nhanh chóng xác định các lĩnh vực mà mẫu máy mới hơn cung cấp những cải tiến đáng kể và đánh giá xem những nâng cấp này có phù hợp với ưu tiên của họ hay không.9. Kết Luận và Khuyến NghịTóm lại, iPhone 16 Pro Max mang đến những cải tiến đáng chú ý so với iPhone 15 Pro Max, đặc biệt là về kích thước màn hình, hệ thống camera (đặc biệt là camera siêu rộng và khả năng quay video), hiệu năng xử lý và các tính năng bổ sung như nút điều khiển Camera. Những khác biệt này có ý nghĩa khác nhau đối với từng loại người dùng. Đối với những người đam mê nhiếp ảnh và quay phim, đặc biệt là những người thường xuyên sử dụng camera siêu rộng hoặc muốn tận dụng khả năng quay video 4K 120 khung hình/giây, iPhone 16 Pro Max có vẻ là một bản nâng cấp hấp dẫn. Những game thủ và người dùng nói chung cũng sẽ được hưởng lợi từ hiệu năng mạnh mẽ hơn và màn hình lớn hơn.Đối với những người hiện đang sở hữu iPhone 15 Pro Max và hài lòng với hiệu năng và các tính năng hiện có, những nâng cấp trên iPhone 16 Pro Max có thể không đủ để biện minh cho chi phí nâng cấp, tùy thuộc vào nhu cầu và ngân sách cụ thể của họ. Tuy nhiên, đối với những người dùng đang ưu tiên màn hình lớn hơn và các tính năng camera tiên tiến nhất, đặc biệt là khả năng quay video, iPhone 16 Pro Max dường như là một lựa chọn hấp dẫn. Quyết định nâng cấp hay mua mới sẽ phụ thuộc vào ngân sách, các tính năng mong muốn và tầm quan trọng của việc sở hữu công nghệ mới nhất.
+"""
+
+OUTPUT-HTML:
+```html
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infographic: So Sánh iPhone 15 Pro Max vs. iPhone 16 Pro Max</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <!--
+        Narrative & Structure Plan:
+        1. Hero Header: Title, subtitle, and visual hook.
+        2. Key Upgrades Overview: A card-based section for quick takeaways on the most significant improvements (Display, Camera, Performance, New Buttons).
+        3. Camera System Evolution Chart: A radar chart to visually represent the overall capability improvements in the camera system.
+        4. Detailed Comparison Table: A comprehensive spec-for-spec table for users who want to dive into the details.
+        5. Target User Profiles: Persona-based cards explaining who would benefit most from the upgrade.
+        6. Conclusion & Recommendation.
+    -->
+    <!--
+        Visualization Choices:
+        - Camera System Capabilities -> Radar Chart (Chart.js/Canvas): Excellent for visualizing multi-dimensional strengths (e.g., Ultrawide, Video, Low Light). Confirms NO SVG.
+        - Detailed Specs -> Styled HTML Table (Tailwind CSS): The best format for presenting a large amount of reference data clearly and concisely. Confirms NO SVG, NO MERMAID JS.
+        - Key Features -> Styled HTML Cards (Tailwind CSS): Breaks down major points into easily digestible visual chunks with icons. Confirms NO SVG.
+    -->
+    <!--
+        Confirmation: NEITHER Mermaid JS NOR SVG graphics were used in this document. All charts are rendered on HTML Canvas elements.
+    -->
+    <!--
+        Selected Color Palette: Future Forward (Inspired by Apple's marketing)
+        - Primary Gradient Start: #4f46e5 (Indigo 600)
+        - Primary Gradient End: #7c3aed (Violet 600)
+        - Accent: #db2777 (Pink 600)
+        - Highlight Text: #6d28d9 (Violet 700)
+        - Background: #f8fafc (Slate 50)
+        - Text/Neutral: #334155 (Slate 700)
+        - White: #FFFFFF
+    -->
+    <style>
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 500px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #4f46e5, #db2777);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .upgrade-badge {
+            background: linear-gradient(90deg, #7c3aed, #db2777);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(219, 39, 119, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(219, 39, 119, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(219, 39, 119, 0); }
+        }
+        .highlight-upgrade {
+            position: relative;
+            font-weight: 700;
+            color: #7c3aed; /* Violet-600 */
+        }
+        .highlight-upgrade::after {
+            content: '✨';
+            position: absolute;
+            right: -20px;
+            top: -2px;
+            font-size: 0.9em;
+            animation: sparkle 1.5s infinite ease-in-out;
+        }
+        @keyframes sparkle {
+            0%, 100% { opacity: 0.7; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+        /* Custom scrollbar for a more polished look */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9; /* slate-100 */
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #a78bfa; /* violet-400 */
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #8b5cf6; /* violet-500 */
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="container mx-auto p-4 md:p-8">
+        
+        <header class="text-center mb-16">
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-4 gradient-text">iPhone 15 Pro Max vs. 16 Pro Max</h1>
+            <p class="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto">Infographic phân tích về những nâng cấp định hình thế hệ iPhone tiếp theo.</p>
+        </header>
+
+        <main class="space-y-16 md:space-y-20">
+
+            <section id="key-upgrades">
+                <h2 class="text-3xl font-bold text-center mb-10 flex items-center justify-center gap-x-3"><i class="fas fa-star-of-life text-violet-500"></i>Những Nâng Cấp Vượt Trội</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Card 1: Màn Hình -->
+                    <div class="bg-white p-6 rounded-2xl shadow-lg border-t-4 border-violet-500 text-center transition hover:shadow-2xl hover:-translate-y-2">
+                        <div class="flex items-center justify-center mb-4 text-4xl text-violet-500">
+                           <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3 class="font-bold text-xl mb-2 text-violet-700">Màn Hình Lớn Hơn</h3>
+                        <p>Tăng từ 6.7" lên <strong class="text-slate-900">6.9"</strong> với viền mỏng hơn, cho trải nghiệm xem đắm chìm.</p>
+                    </div>
+                    <!-- Card 2: Camera -->
+                    <div class="bg-white p-6 rounded-2xl shadow-lg border-t-4 border-pink-500 text-center transition hover:shadow-2xl hover:-translate-y-2">
+                        <div class="flex items-center justify-center mb-4 text-4xl text-pink-500">
+                           <i class="fas fa-camera-retro"></i>
+                        </div>
+                        <h3 class="font-bold text-xl mb-2 text-pink-700">Đột Phá Camera</h3>
+                        <p>Camera siêu rộng <strong class="text-slate-900">48MP</strong>, quay video 4K@120fps và Nút Camera vật lý chuyên dụng.</p>
+                    </div>
+                    <!-- Card 3: Hiệu năng -->
+                    <div class="bg-white p-6 rounded-2xl shadow-lg border-t-4 border-indigo-500 text-center transition hover:shadow-2xl hover:-translate-y-2">
+                        <div class="flex items-center justify-center mb-4 text-4xl text-indigo-500">
+                           <i class="fas fa-microchip"></i>
+                        </div>
+                        <h3 class="font-bold text-xl mb-2 text-indigo-700">Hiệu Năng Đỉnh Cao</h3>
+                        <p>Chip <strong class="text-slate-900">A18 Pro</strong> mạnh mẽ, tản nhiệt tốt hơn và tối ưu cho AI.</p>
+                    </div>
+                    <!-- Card 4: Kết nối & AI -->
+                     <div class="bg-white p-6 rounded-2xl shadow-lg border-t-4 border-sky-500 text-center transition hover:shadow-2xl hover:-translate-y-2">
+                        <div class="flex items-center justify-center mb-4 text-4xl text-sky-500">
+                           <i class="fas fa-wifi"></i><i class="fas fa-brain ml-3"></i>
+                        </div>
+                        <h3 class="font-bold text-xl mb-2 text-sky-700">Kết Nối & AI</h3>
+                        <p>Hỗ trợ <strong class="text-slate-900">Wi-Fi 7</strong>, thời lượng pin dài hơn và tích hợp sâu <strong class="text-slate-900">Apple Intelligence</strong>.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="camera-chart">
+                 <h2 class="text-3xl font-bold text-center mb-4 flex items-center justify-center gap-x-3"><i class="fas fa-layer-group text-pink-500"></i>So Sánh Hệ Thống Camera</h2>
+                 <p class="text-center max-w-3xl mx-auto mb-10 text-slate-600">iPhone 16 Pro Max không chỉ nâng cấp phần cứng mà còn tái định nghĩa khả năng nhiếp ảnh di động, với sức mạnh vượt trội ở khả năng chụp góc siêu rộng và quay video chuyên nghiệp.</p>
+                <div class="bg-white p-6 md:p-8 rounded-2xl shadow-xl">
+                    <div class="chart-container">
+                        <canvas id="cameraSystemChart"></canvas>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="spec-table">
+                <h2 class="text-3xl font-bold text-center mb-10 flex items-center justify-center gap-x-3"><i class="fas fa-list-ul text-indigo-500"></i>Bảng So Sánh Thông Số Chi Tiết</h2>
+                <div class="overflow-x-auto bg-white p-1 rounded-2xl shadow-xl">
+                    <table class="w-full min-w-max">
+                        <thead class="bg-slate-100">
+                            <tr>
+                                <th class="p-4 text-left text-sm font-semibold text-slate-600">Tính Năng</th>
+                                <th class="p-4 text-center text-sm font-semibold text-slate-600">iPhone 15 Pro Max</th>
+                                <th class="p-4 text-center text-sm font-semibold text-slate-600 relative">
+                                    iPhone 16 Pro Max
+                                    <span class="absolute -top-2 -right-2 bg-pink-500 text-white text-xs font-bold px-2 py-1 rounded-full upgrade-badge">Mới</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200">
+                            <tr class="hover:bg-violet-50">
+                                <td class="p-4 font-medium text-slate-700"><i class="fas fa-microchip mr-2 text-slate-400 w-5 text-center"></i>Bộ Vi Xử Lý</td>
+                                <td class="p-4 text-center text-slate-600">Apple A17 Pro (3nm)</td>
+                                <td class="p-4 text-center"><span class="highlight-upgrade">Apple A18 Pro (3nm N3E)</span></td>
+                            </tr>
+                            <tr class="hover:bg-violet-50">
+                                <td class="p-4 font-medium text-slate-700"><i class="fas fa-mobile-screen-button mr-2 text-slate-400 w-5 text-center"></i>Màn Hình</td>
+                                <td class="p-4 text-center text-slate-600">6.7 inch</td>
+                                <td class="p-4 text-center"><span class="highlight-upgrade">6.9 inch</span></td>
+                            </tr>
+                            <tr class="hover:bg-violet-50">
+                                <td class="p-4 font-medium text-slate-700"><i class="fas fa-camera mr-2 text-slate-400 w-5 text-center"></i>Camera Siêu Rộng</td>
+                                <td class="p-4 text-center text-slate-600">12MP</td>
+                                <td class="p-4 text-center"><span class="highlight-upgrade">48MP</span></td>
+                            </tr>
+                            <tr class="hover:bg-violet-50">
+                                <td class="p-4 font-medium text-slate-700"><i class="fas fa-film mr-2 text-slate-400 w-5 text-center"></i>Quay Video (Tối đa)</td>
+                                <td class="p-4 text-center text-slate-600">4K @ 60fps ProRes</td>
+                                <td class="p-4 text-center"><span class="highlight-upgrade">4K @ 120fps Dolby Vision</span></td>
+                            </tr>
+                             <tr class="hover:bg-violet-50">
+                                <td class="p-4 font-medium text-slate-700"><i class="fas fa-hand-pointer mr-2 text-slate-400 w-5 text-center"></i>Nút Bấm Chuyên Dụng</td>
+                                <td class="p-4 text-center text-slate-600">Nút Action</td>
+                                <td class="p-4 text-center"><span class="highlight-upgrade">Nút Action + Nút Camera</span></td>
+                            </tr>
+                             <tr class="hover:bg-violet-50">
+                                <td class="p-4 font-medium text-slate-700"><i class="fas fa-wifi mr-2 text-slate-400 w-5 text-center"></i>Wi-Fi</td>
+                                <td class="p-4 text-center text-slate-600">Wi-Fi 6E</td>
+                                <td class="p-4 text-center"><span class="highlight-upgrade">Wi-Fi 7</span></td>
+                            </tr>
+                            <tr class="hover:bg-violet-50">
+                                <td class="p-4 font-medium text-slate-700"><i class="fas fa-battery-full mr-2 text-slate-400 w-5 text-center"></i>Thời Lượng Pin (Xem Video)</td>
+                                <td class="p-4 text-center text-slate-600">Lên đến 29 giờ</td>
+                                <td class="p-4 text-center"><span class="highlight-upgrade">Lên đến 33 giờ (dự kiến)</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <section id="conclusion">
+                <h2 class="text-3xl font-bold text-center mb-10 flex items-center justify-center gap-x-3"><i class="fas fa-user-check text-sky-500"></i>Ai Nên Nâng Cấp Lên iPhone 16 Pro Max?</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-gradient-to-br from-pink-50 to-pink-100 p-8 rounded-2xl border-l-8 border-pink-500 shadow-lg">
+                        <h3 class="font-bold text-2xl text-pink-700 mb-4 flex items-center"><i class="fas fa-camera-retro mr-3"></i>Người Đam Mê Nhiếp Ảnh & Quay Phim</h3>
+                        <p class="text-slate-700">Với camera siêu rộng 48MP, khả năng quay 4K@120fps và Nút Camera chuyên dụng, đây là bản nâng cấp không thể bỏ qua để tạo ra những nội dung chất lượng chuyên nghiệp.</p>
+                    </div>
+                     <div class="bg-gradient-to-br from-violet-50 to-violet-100 p-8 rounded-2xl border-l-8 border-violet-500 shadow-lg">
+                        <h3 class="font-bold text-2xl text-violet-700 mb-4 flex items-center"><i class="fas fa-gamepad mr-3"></i>Game Thủ & Power User</h3>
+                        <p class="text-slate-700">Chip A18 Pro, màn hình 6.9" lớn hơn và hệ thống tản nhiệt cải tiến mang lại trải nghiệm chơi game và đa nhiệm mượt mà, hiệu năng bền bỉ hơn bao giờ hết.</p>
+                    </div>
+                </div>
+                 <div class="text-center mt-12 bg-gradient-to-tr from-slate-50 to-indigo-100 p-8 rounded-2xl shadow-lg">
+                    <h3 class="font-semibold text-xl mb-4 text-indigo-700 flex items-center justify-center"><i class="fas fa-lightbulb mr-3 text-yellow-400"></i>Kết Luận & Khuyến Nghị</h3>
+                    <p class="text-slate-600 max-w-2xl mx-auto">Nếu bạn đang sở hữu iPhone 15 Pro Max và hài lòng, việc nâng cấp có thể chưa cấp thiết. Tuy nhiên, nếu bạn khao khát công nghệ camera đỉnh cao, hiệu năng tối thượng và màn hình lớn nhất, iPhone 16 Pro Max là một lựa chọn không thể hợp lý hơn.</p>
+                </div>
+            </section>
+        </main>
+
+        <footer class="text-center text-sm text-slate-500 mt-12 py-6 border-t border-slate-200">
+            Infographic so sánh iPhone 16 Pro Max vs Iphone 15 Pro Max được thiết kế bởi AI.
+            <br>
+        </footer>
+    </div>
+
+<script>
+    function wrapLabel(label, maxWidth) {
+        const words = label.split(' ');
+        let line = '';
+        const lines = [];
+        for (let i = 0; i < words.length; i++) {
+            const testLine = line + words[i] + ' ';
+            if (testLine.length > maxWidth && i > 0) {
+                lines.push(line.trim());
+                line = words[i] + ' ';
+            } else {
+                line = testLine;
+            }
+        }
+        lines.push(line.trim());
+        return lines;
+    }
+
+    const tooltipTitleCallback = (tooltipItems) => {
+        const item = tooltipItems[0];
+        let label = item.chart.data.labels[item.dataIndex];
+        if (Array.isArray(label)) {
+          return label.join(' ');
+        }
+        return label;
+    };
+
+    const sharedChartOptions = {
+        plugins: {
+            tooltip: {
+                enabled: true,
+                callbacks: {
+                    title: tooltipTitleCallback
+                },
+                backgroundColor: '#334155',
+                titleColor: '#FFFFFF',
+                bodyColor: '#f8fafc',
+                titleFont: { size: 14, weight: 'bold', family: 'Be Vietnam Pro' },
+                bodyFont: { size: 12, family: 'Be Vietnam Pro' },
+                padding: 12,
+                cornerRadius: 8,
+                boxPadding: 4,
+            },
+            legend: {
+                position: 'bottom',
+                labels: {
+                    color: '#334155',
+                    font: {
+                        size: 14,
+                        family: 'Be Vietnam Pro'
+                    },
+                    padding: 20,
+                    usePointStyle: true,
+                    pointStyle: 'rectRounded'
+                }
+            }
+        }
+    };
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        const cameraCtx = document.getElementById('cameraSystemChart').getContext('2d');
+        new Chart(cameraCtx, {
+            type: 'radar',
+            data: {
+                labels: [
+                    'Chất lượng Siêu Rộng', 
+                    'Video Chuyên Nghiệp (4K/120fps)', 
+                    'Hiệu Năng Ánh Sáng Yếu', 
+                    'Khả Năng Zoom', 
+                    'Xử Lý AI & HDR'
+                ].map(label => wrapLabel(label, 20)),
+                datasets: [{
+                    label: 'iPhone 15 Pro Max',
+                    data: [6, 7, 8, 9, 8],
+                    fill: true,
+                    backgroundColor: 'rgba(79, 70, 229, 0.2)', // indigo-600
+                    borderColor: '#4f46e5',
+                    pointBackgroundColor: '#4f46e5',
+                }, {
+                    label: 'iPhone 16 Pro Max',
+                    data: [9, 10, 9, 9, 10],
+                    fill: true,
+                    backgroundColor: 'rgba(219, 39, 119, 0.2)', // pink-600
+                    borderColor: '#db2777',
+                    pointBackgroundColor: '#db2777',
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: sharedChartOptions.plugins,
+                scales: {
+                    r: {
+                        angleLines: { color: '#cbd5e1' },
+                        grid: { color: '#e2e8f0' },
+                        pointLabels: { 
+                            font: { size: 12 },
+                            color: '#475569'
+                        },
+                        ticks: {
+                            backdropColor: 'transparent',
+                            stepSize: 2,
+                            color: '#64748b'
+                        },
+                         min: 0,
+                         max: 10
+                    }
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>
+```
+
+# VÍ DỤ 4:
+
+"""
+So sánh Samsung Galaxy S25 VS iPhone 16
+Cáo - Foxtek
+Theo dõi
+23/1/2025 5:16
+Phản hồi: 54
+Xem nhanh
+Ẩn
+Thiết kế tổng thể
+Thông số cấu hình
+Những điểm nổi bật của Samsung Galaxy S25
+Những điểm nổi bật của iPhone 16
+figure[https://photo2.tinhte.vn/data/attachment-files/2025/01/8620646_s25-vs-ip16.jpeg]
+Hình ảnh về Samsung Galaxy S25 (bên trái) và iPhone 16 (bên phải)
+Samsung Galaxy S25 được ra mắt chính thức tại sự kiện Samsung Galaxy Unpacked (diễn ra ngày 23/1/2025 theo giờ Việt Nam). Chiếc điện thoại này được xem là một trong những đối thủ cạnh tranh trực tiếp với iPhone 16, vốn là mẫu flagship nhỏ gọn tốt nhất hiện tại đến từ Apple.
+Hiện tại, mình vẫn chưa có Samsung Galaxy S25 và iPhone 16 để chụp ảnh sản phẩm thực tế. Vì vậy, mình sẽ lướt qua phần thiết kế và đi thẳng vào phần so sánh nhanh thông số cấu hình và liệt kê những điểm nổi bật của Samsung Galaxy S25 VS iPhone 16. Các thông tin trong bài viết được mình tổng hợp và biên tập từ những chia sẻ của cả hai hãng về từng sản phẩm của họ.
+Xem thêm:
+So sánh Samsung Galaxy S25 VS Samsung Galaxy S24
+So sánh Samsung Galaxy S25+ VS Samsung Galaxy S24+
+So sánh Samsung Galaxy S25 Ultra VS Samsung Galaxy S24 Ultra
+Video Samsung lần đầu hé lộ Galaxy S25 Egde tại sự kiện Galaxy Unpacked 23/1/2025
+Thiết kế tổng thể
+Về tổng thể ngoại hình, Samsung Galaxy S25 sở hữu phong cách thiết kế vuông vức ở bốn cạnh viền kim loại đi kèm màn hình đục lỗ kích thước 6.2 inch. Mặt lưng máy sử dụng chất liệu kính được làm phẳng kèm cụm camera 3 ống kính được làm lồi lên trực tiếp từ mặt lưng.
+So sánh thiết kế tổng thể của Samsung Galaxy S25 (bên trái) VS iPhone 16 (bên phải). Nguồn: Samsung và Apple.
+Trong khi đó, iPhone 16 cũng sở hữu ngôn ngữ thiết kế vuông vức với màn hình 6.1 inch (màn hình này cũng có thiết kế đục lỗ “Dynamic Island” chứa cụm camera trước và cảm biến nhận diện gương mặt). Khung viền của iPhone 16 sử dụng chất liệu kim loại kết hợp với mặt lưng kính nhám. Trên mặt lưng máy có cụm camera kép được đặt trong khung hình elip.
+Thông số cấu hình
+Samsung Galaxy S25 là phiên bản tiêu chuẩn của Galaxy S25 Series (có 2 mẫu khác gồm: Galaxy S25+, Galaxy S25 Ultra), dòng sản phẩm mới nhất thuộc flagship Galaxy S Series của Samsung. Đây cũng là phiên bản kế nhiệm của Galaxy S24 được giới thiệu vào tháng 1/2024.
+Galaxy S25 là mẫu flagship nhỏ gọn nhất trong dòng flagship Samsung Galaxy S25 Series với màn hình kích thước 6.2 inch. Nguồn: Samsung.
+Ở phía đối diện, iPhone 16 cũng là phiên bản tiêu chuẩn của dòng iPhone 16 Series mới nhất (có 3 mẫu khác gồm: iPhone 16 Plus, iPhone 16 Pro, iPhone 16 Pro Max). iPhone 16 cũng sở hữu nhiều nâng cấp đáng chú ý so với tiền nhiệm iPhone 15 ra mắt cách đây 1 năm.
+iPhone 16 cũng là mẫu iPhone nhỏ gọn nhất trong dòng iPhone 16 Series với màn hình kích thước 6.1 inch. Nguồn: Apple.
+Cả Samsung Galaxy S25 và iPhone 16 đều là những mẫu flagship nhỏ gọn được trang bị phần cứng thuộc TOP đầu hiện tại. Dưới đây sẽ là bảng so sánh nhanh thông số cấu hình giữa bộ đôi sản phẩm trên.
+Quảng cáo
+Bảng so sánh nhanh thông số cấu hình của Samsung Galaxy S25 (bên trái) VS iPhone 16 (bên phải).
+Xem thêm:
+Qualcomm Snapdragon 8 Elite là gì: Mẫu chip với nhân CPU Oryon thế hệ 2, hỗ trợ AI Agent
+Chi tiết chip của iPhone 16: A18 khác gì A18 Pro?
+Những điểm nổi bật của Samsung Galaxy S25
+Tích hợp đa dạng tính năng Galaxy AI mới, có sẵn Tiếng Việt: Galaxy S25 sở hữu đa dạng tính năng Galaxy AI hỗ trợ Tiếng Việt và đây là một trong những điểm cộng lớn của sản phẩm so với iPhone 16 (Apple Intelligence hiện chưa hỗ trợ Tiếng Việt). Samsung đã bổ sung một số chức năng mới cho Galaxy AI trên Galaxy S25 như:
+Thực hiện tác vụ liên ứng dụng bằng lời nói (Seamless Actions across Apps): Tìm thông tin và gửi qua tin nhắn cho bạn bè, người thân,… Hoàn thành nhiệm vụ một cách liền mạch mà không cần phải chuyển đổi giữa các ứng dụng khác nhau.
+Tóm tắt thông minh (Now Brief): Nhận các bản tóm tắt được cá nhân hóa trong suốt cả ngày, chẳng hạn như kiểm tra Energy Score mới nhất của bạn và lời nhắc về lịch trình bận rộn.
+Tìm kiếm thông minh (Intelligent Multimodal Search): Tìm kiếm thông minh từ hình ảnh, âm nhạc đến video hay tài liệu.
+v.v…
+Galaxy S25 sở hữu hệ thống Galaxy AI đa dạng chức năng và hỗ trợ Tiếng Việt. Nguồn: Samsung.
+Các bạn có thể đọc bài viết dưới đây để hiểu thêm Galaxy AI là gì cùng một số chức năng khác của hệ thống AI đến từ Samsung.
+Bài viết chi tiết: Tìm hiểu Galaxy AI là gì: Hệ thống AI do Samsung phát triển, được tích hợp trên các thiết bị Galaxy
+Hệ thống 3 camera với công cụ Pro Visual Engine, cải thiện khả năng quay video đêm: Nếu như iPhone 16 được trang bị camera kép (48 MP + 12 MP) thì đại diện của Samsung sở hữu hệ thống 3 camera (50 MP + 12 MP + 10 MP). Bên cạnh đó, Samsung đã tăng cường công cụ ProVisual Engine nhằm mang lại trải nghiệm chụp ảnh/quay video, xem và chỉnh sửa.
+Tổng quan thông số camera của Galaxy S25. Nguồn: Samsung.
+Bên cạnh đó, Galaxy S25 đã có thể quay video với HDR 10-bit cùng khả năng loại bỏ nhiễu chính xác hơn trong điều kiện thiếu sáng. Thiết bị cũng sở hữu công nghệ Object-aware Engine có thể thích ứng với các điều kiện ánh sáng khác nhau, giúp chủ thể trong ảnh chụp chân dung có màu da chính xác hơn.
+Những chia sẻ của Samsung về khả năng quay video trong điều kiện thiếu sáng của Galaxy S25 (Video Nightography). Nguồn: Samsung.
+Thời lượng pin lên đến 29 giờ xem video: Galaxy S25 được trang bị viên pin 4.000 mAh với công nghệ mDNIe được tích hợp vào AP chế tạo riêng và tối ưu hóa phần mềm. Theo chia sẻ từ Samsung, thời lượng sử dụng pin của Galaxy S25 giúp người dùng thoải mái xem video trong 29 giờ, cao hơn 7 giờ (~31.8%) so với mốc thời gian 22 giờ xem video của iPhone 16.
+Chia sẻ của Samsung về thời lượng sử dụng pin của Galaxy S25. Nguồn: Samsung.
+Những điểm nổi bật của iPhone 16
+Tích hợp các tính năng Apple Intelligence, sẽ hỗ trợ Tiếng Việt: Khác với Galaxy AI của Galaxy S25 (phần lớn tính năng đều có sẵn Tiếng Việt), Apple Intelligence trên iPhone 16 sẽ hỗ trợ Tiếng Việt trong năm 2025 nhưng Apple vẫn chưa chia sẻ thời gian cụ thể. Một số tính năng AI mà iPhone 16 có thể làm được như: Tóm tắt thông báo, tạo đoạn văn bản với văn phong phù hợp để gửi email, tự sáng tạo hình ảnh/emoji, trợ lý ảo Siri trả lời với ngôn ngữ/biểu cảm tự nhiên hơn,…
+Các bạn có thể đọc qua bài viết dưới đây để biết thêm về Apple Intelligence.
+Bài viết chi tiết: Chờ mòn mỏi, cuối cùng AI của Apple cũng ra mắt, tên là Apple Intelligence, có Siri mới hoàn toàn
+iPhone 16 hỗ trợ Apple Intelligence nhưng các chức năng này hiện chưa có sẵn Tiếng Việt. Nguồn: Apple.
+Trang bị các phím chức năng mới: iPhone 16 được bổ sung 2 phím chức năng mới là Action Button và Camera Control (điều mà Galaxy S25 không có). Cụ thể, Action Button thay thế cho phím gạt rung giúp người dùng có thể kích hoạt nhanh nhiều chức năng như: Chuyển chế độ không làm phiền, đèn pin, ghi âm, tìm kiếm bài hát,…
+Một số chức năng của phím Action Button trên iPhone 16. Phím bấm này từng được trang bị độc quyền trên iPhone 15 Pro và iPhone 15 Pro Max trước đó. Nguồn: Apple.
+Trong khi đó, phím Camera Control của iPhone 16 có chức năng kích hoạt nhanh camera và thực hiện một số thao tác trong khi chụp ảnh/quay video như: Bấm để chụp ảnh nhanh, nhấn nhẹ và trượt để zoom ảnh, nhấn nhẹ 2 lần để chuyển đổi các thiết lập camera.
+Cận cảnh phím Camera Control trên iPhone 16. Nguồn: Apple.
+Phím chức năng này còn được tối ưu cho ứng dụng bên thứ 3 để thực hiện nhanh một số tác vụ, điển hình là chụp ảnh và gửi nhanh story đến người thân, bạn bè. Nguồn: Apple.
+Để biết thêm chi tiết về iPhone 16, các bạn có thể đọc thêm những bài viết liên quan đến sản phẩm ở dưới đây.
+Xem thêm:
+Review iPhone 16 sau 3 tuần: Không một chút hối hận
+5 lý do nên mua iPhone 16 thay vì iPhone 16 Pro
+Nhìn chung, cả Samsung Galaxy Galaxy S25 và iPhone 16 đều là những mẫu smartphone nhỏ gọn, chất lượng nhất đến từ hai thương hiệu lớn là Samsung lẫn Samsung. Thật sự rất khó để mình chỉ ra đâu là sản phẩm tốt hơn bởi mỗi thiết bị đều có những ưu, nhược điểm nhất định (có lẽ không chỉ mình mà nhiều bạn có thể sẽ cảm thấy tương tự).
+Các bạn còn thấy sự khác biệt nào giữa bộ đôi flagship trên thì hãy để lại ý kiến bên dưới phần bình luận của bài viết nhé, mình rất muốn lắng nghe và cập nhật thêm thông tin hữu ích vào bài viết
+Vậy các bạn thích Samsung Galaxy S25 hay iPhone 16? Đâu là yếu tố bạn đánh giá cao ở bộ đôi flagship trên? Hãy thực hiện bảng vote bên dưới và bình luận ở cuối bài viết để nêu lên cảm nghĩ của bạn. Cảm ơn các bạn đã quan tâm và theo dõi.
+So sánh Galaxy S25 và iPhone 16: Cuộc chiến có cân tài cân sức?
+Hải Nam
+Ngày cập nhật: 04/06/2025
+4. Nên mua Galaxy S25 hay iPhone 16Xem thêm
+Việc so sánh Galaxy S25 và iPhone 16 được nhiều người dùng quan tâm để xem liệu đâu mới là lựa chọn tốt hơn khi sử dụng. Nếu bạn đang có thắc mắc tương tự thì đừng bỏ qua bài viết dưới đây nhé.
+Galaxy S25 là một trong ba mẫu flagship vừa được Samsung trình làng tại sự kiện Galaxy Unpacked 2025. Giống như thế hệ trước, đây là phiên bản giá hấp dẫn nhất của dòng sản phẩm và là đối thủ cạnh tranh trực tiếp của iPhone 16 ở phân khúc smartphone cao cấp. Vậy giữa Galaxy S25 vs iPhone 16 thì đâu mới là lựa chọn tốt hơn cho người dùng?
+Mục lục
+Ẩn
+1. Giới thiệu chung về Galaxy S25 và iPhone 16
+2. So sánh Samsung Galaxy S25 và iPhone 16 chi tiết
+2.1. Về thiết kế: Cả hai đều có thiết kế cao cấp, sang trọng
+2.2. Về màn hình: Galaxy S25 có màn hình sáng, mượt mà hơn
+2.3. Về hiệu năng: Galaxy S25 và iPhone 16 đều có hiệu suất mạnh mẽ
+2.4. Về camera: Galaxy S25 có hệ thống camera đa năng hơn
+2.5. Về pin, thời gian sử dụng: Hai điện thoại có thời lượng pin tương đồng
+3. Bảng so sánh thông số Samsung Galaxy S25 và iPhone 16
+4. Nên mua Galaxy S25 hay iPhone 16
+Giới thiệu chung về Galaxy S25 và iPhone 16
+Samsung Galaxy và iPhone 16 là hai phiên bản điện thoại được rất nhiều người dùng quan tâm. Trong đó, Galaxy S25 là mẫu flagship mới nhất của Samsung ở thời điểm hiện tại. Điện thoại sở hữu thiết kế nhỏ gọn với chất lượng hoàn thiện tuyệt vời, màn hình đẹp, mượt mà, hiệu năng mạnh mẽ, hệ thống camera đa năng chất lượng và thời lượng pin đủ dùng trong cả ngày.
+Mặt khác, iPhone 16 là một trong 4 mẫu iPhone cao cấp được Apple giới thiệu vào mùa thu năm ngoái. Máy gây ấn tượng với màn hình Dynamic Island tiện dụng, hiệu năng mạnh mẽ đến từ chip A18 3nm, chạy trên hệ điều hành iOS 18 giàu tính năng và hệ thống camera cho khả năng quay video tuyệt vời.
+Ngoài ra, mẫu điện thoại giá S25 Ultra giảm sâu 10 triệu kèm thêm PMH 500k tại Cellphones có thể bạn cần, cùng khám phá ngay nhé!
+iPhone 16 ra mắt vào mùa thu năm ngoái
+So sánh Samsung Galaxy S25 và iPhone 16 chi tiết
+Dưới đây, chúng ta sẽ so sánh hai siêu phẩm đến từ Samsung và Apple ở nhiều khía cạnh khác nhau như thiết kế, màn hình, hiệu năng và camera để bạn đọc nắm rõ ưu, nhược điểm của từng sản phẩm.
+Về thiết kế: Cả hai đều có thiết kế cao cấp, sang trọng
+Khi so sánh Samsung Galaxy S25 và iPhone 16 về mặt thẩm mỹ, bạn sẽ thấy bộ đôi này có ngôn ngữ thiết kế khác biệt nhau hoàn toàn, thể hiện nét đặc trưng riêng của Samsung và Apple trong những năm gần đây.
+Ngoại hình Samsung Galaxy S25 nổi bật với thiết kế phẳng hiện đại, sử dụng thiết kế đục lỗ đơn ở mặt trước nên có tính thẩm mỹ tốt hơn đối thủ đến từ Apple. Máy cũng có khung viền nhôm cao cấp và mặt lưng kính phía sau và hệ thống 3 camera sau với các ống kính được sắp xếp theo chiều dọc, mang đến vẻ đẹp liền lạc, bắt mắt.
+Galaxy S25 có thiết kế cao cấp
+Còn về phần iPhone 16 gây ấn tượng với thiết kế phẳng hiện đại ở mặt trước, sử dụng thiết kế đục lỗ hình viên thuốc ở mặt trước để chứa camera selfie cũng như các cảm biến Face ID và có viền bezel các cạnh siêu mỏng. Ở mặt sau, máy có thân máy làm từ khung nhôm cứng cáp kết hợp với mặt kính bóng bẩy, đi kèm cụm camera hình viên thuốc nhỏ gọn nằm ở góc trên cùng bên trái.
+Điện thoại Apple còn đi kèm 2 nút bấm mới là Action Button và Camera Control mang đến khả năng tùy chỉnh và những trải nghiệm mới lạ hơn cho người dùng.
+Thiết kế mặt sau iPhone 16
+Galaxy S25 và iPhone 16 còn có chất lượng hoàn thiện tuyệt vời khi hỗ trợ kháng nước, chống bụi chuẩn IP68, giúp người dùng yên tâm hơn trong quá trình sử dụng. Do đó, việc thấy thiết bị nào đẹp hơn sẽ phụ thuộc vào sở thích, “gu” thẩm mỹ của mỗi người.
+Về màn hình: Galaxy S25 có màn hình sáng, mượt mà hơn
+Màn hình là yếu tố không thể bỏ qua khi so sánh Galaxy S25 và iPhone 16. Cụ thể, mẫu flagship mới nhất Samsung S25 được trang bị tấm nền Dynamic AMOLED 2X kích thước 6.2 inch, độ phân giải 1080 x 2340 pixel, hỗ trợ tần số quét thích ứng 1-120Hz và có độ sáng lên tới 2,600 nits nên cho chất lượng hiển thị tuyệt vời.
+Galaxy S25 có màn hình sáng, mượt mà hơn
+Mặt khác, iPhone 16 có tấm nền OLED 6.1 inch nhỏ gọn hơn một chút, hỗ trợ độ phân giải 1179 x 2556 pixel nhưng chỉ có tần số quét 60Hz tiêu chuẩn và độ sáng tối đa 2,000 nits. Do đó, Galaxy S25 hứa hẹn sẽ hiển thị hình ảnh động cũng như cho trải nghiệm lướt web, chơi game mượt mà hơn. Nó cũng cho khả năng hiển thị ngoài trời nắng hay dưới nguồn sáng mạnh tốt hơn đối thủ Apple.
+Về hiệu năng: Galaxy S25 và iPhone 16 đều có hiệu suất mạnh mẽ
+Khi so sánh Galaxy S25 và iPhone 16 về khía cạnh hiệu năng thì cả hai đều sở hữu bộ xử lý cực kỳ mạnh mẽ. Cụ thể, Samsung năm nay đã độc quyền trang bị cho dòng Galaxy S 2025 bộ xử lý Snapdragon 8 Elite for Galaxy mới, mạnh mẽ nhất của Qualcomm ở thời điểm hiện tại. Nó được sản xuất trên tiến trình 3nm tiên tiến, sử dụng lõi Oryon tùy chỉnh nên cho hiệu suất xử lý vượt trội thế hệ trước, đặc biệt trong các tác vụ đa nhiệm và ứng dụng AI.
+Galaxy S25 dùng chip Snapdragon 8 Elite for Galaxy mạnh mẽ
+Mặt khác, iPhone 16 dù không được trang bị con chip A-series mạnh mẽ nhất của Apple nhưng sức mạnh của SoC A18 3nm chắc chắn sẽ không làm bạn thất vọng. Nó có thể đáp ứng tốt mọi nhu cầu sử dụng của người dùng, kể cả chơi những tựa game đồ họa nặng nhất hiện nay hay render video 4K.
+Do đó, sức mạnh xử lý cùng đồ họa giữa Galaxy S25 vs iPhone 16 sẽ không chênh lệch nhau quá nhiều, dư sức mang đến trải nghiệm sử dụng mượt mà nhất cho người dùng.
+iPhone 16 cho hiệu suất mạnh mẽ, ổn định
+Về bộ nhớ, Samsung S25 và iPhone 16 đều cung cấp cho người dùng ít nhất 128GB bộ nhớ trong cho không gian lưu trữ rộng rãi. Tuy nhiên, Galaxy S25 có RAM 12GB, lớn hơn một chút so với con số 8GB của iPhone 16 nên mang tới khả năng đa nhiệm tốt hơn một chút.
+Về phần mềm, Galaxy S25 được cài sẵn hệ điều hành Android 15 với giao diện người dùng One UI 7 khi ra khỏi hộp. Trong khi đó, iPhone 16 chạy trên hệ điều hành iOS 18. Cả hai đều có giao diện người dùng trực quan, đi kèm hàng loạt tính năng AI thú vị. Chúng cũng được hỗ trợ phần mềm lâu dài với Samsung hứa hẹn mẫu flagship mới nhất của họ được cập nhật hệ điều hành và bảo mặt trong 7 năm. Còn iPhone 16 sẽ được cập nhật iOS trong ít nhất 5 năm tới.
+Về camera: Galaxy S25 có hệ thống camera đa năng hơn
+Theo đó, Samsung S25 trang bị hệ thống 3 camera sau, bao gồm cảm biến chính 50MP, máy ảnh 12MP cho góc chụp siêu rộng và camera tele 10MP hỗ trợ zoom quang học 3x.
+Còn điện thoại iPhone 16 sở hữu hệ thống camera sau kép với cảm biến chính 48MP và máy ảnh góc siêu rộng 12MP. Do đó, xét về khả năng đa dụng thì rõ ràng Galaxy S25 đã làm tốt hơn khi có sự phục vụ của máy ảnh tele 10MP, hứa hẹn mang tới những bức ảnh chân dung ấn tượng hơn cho người dùng. Còn về chất lượng ảnh thực tế thì có lẽ chúng ta sẽ phải chờ đến khi Galaxy S25 được mở bán mới có những đánh giá khách quan nhất về sản phẩm.
+Galaxy S25 có hệ thống camera đa năng hơn
+Về camera trước, cả Galaxy S25 vs iPhone 16 đều sử dụng cảm biến 12MP với thuật toán làm đẹp cũng như hỗ trợ quay video call chất lượng cao. 
+Về pin, thời gian sử dụng: Hai điện thoại có thời lượng pin tương đồng
+Về dung lượng pin, Samsung Galaxy S25 được trang bị pin 4.000 mAh, hỗ trợ sạc nhanh có dây 25W hoặc sạc không dây 15W cùng với tính năng sạc ngược không dây tương tự iPhone 16. Xét về thời gian hoạt động, cả hai điện thoại đều đủ sức đáp ứng tốt nhu cầu sử dụng suốt cả ngày dài mà không gặp vấn đề về pin.
+Hai điện thoại có thời lượng pin tốt
+Ở bên kia chiến tuyến, iPhone 16 cho thời gian xem video lên đến 22 giờ và hỗ trợ sạc nhanh 50% trong vòng 30 phút. Bên cạnh đó, máy còn hỗ trợ sạc không dây MagSafe 25W, Qi 2 15W và sạc ngược không dây 4.5W.
+Bảng so sánh thông số Samsung Galaxy S25 và iPhone 16
+So sánh chi tiết các thông số của Samsung Galaxy S25 và iPhone 16 đầy đủ nhất:
+ Samsung Galaxy S25Apple iPhone 16Kích thướcKích thước: 146.9 x 70.4 x 7.2 mm
+Trọng lượng: 159 gKích thước: 147.6 x 71.6 x 7.8 mm
+Trọng lượng: 170 gMàn hình6.2 inch Dynamic LTPO AMOLED 2X
+Độ phân giải 1080 x 2340 pixel
+Tốc độ làm mới 1-120Hz
+Độ sáng tối đa 2600 nits
+Kính cường lực Corning Gorilla Glass Victus 26.1 inch Super Retina XDR OLED
+Độ phân giải 1179 x 2556 pixel
+Tốc độ làm mới 60Hz
+Độ sáng tối đa 2000 nits
+Kính cường lực Ceramic Shield GlassCPU và GPUSnapdragon 8 Elite for Galaxy (3 nm)
+GPU Adreno 830Apple A18 (3 nm)
+Apple GPURAM/Lưu trữRAM 12GB
+Bộ nhớ trong 128GB/256GB/512GBRAM 8GB
+Bộ nhớ trong 128GB/256GB/512GBCamera sau50MP (chính) + 12MP (siêu rông) + 10MP (tele 3x)48MP (chính) + 12MP (siêu rông)Camera trước12 MP, f/2.212 MP, f/1.9Hệ điều hànhAndroid 15, One UI 7iOS 18
+Nên mua Galaxy S25 hay iPhone 16
+Có thể thấy Samsung Galaxy S25 và iPhone 16 đều có ưu, nhược điểm riêng, nếu bạn cần một chiếc điện thoại có hiệu năng mạnh mẽ ổn định, màn hình chất lượng và đi kèm sự hỗ trợ từ hệ sinh thái Apple thì iPhone 16 là lựa chọn tuyệt vời.
+Ngược lại, nếu bạn ưu tiên sử dụng smartphone có màn hình sáng, mượt hơn, hệ thống camera đa dạng với khả năng zoom xa thì hãy nhanh tay đặt ngay Galaxy S25 tại CellphoneS. Cập nhật giá bán mới nhất của Galaxy S25 và iPhone 16:
+Galaxy S25 12GB + 256GB: 22.990.000đ
+Galaxy S25 12GB + 512GB: 26.490.000đ
+iPhone 16 128GB: 20.990.000đ
+iPhone 16 256GB: 24.190.000đ
+iPhone 16 512GB: 27.990.000đ
+Tạm kết
+Nhìn chung, hai phiên bản đều là những flagship đáng mua nhất hiện nay. Việc so sánh Samsung Galaxy S25 và iPhone 16 đã được Sforum đã đưa ra đầy đủ và khách quan nhất, tùy theo sở thích nhu cầu sử dụng hãy lựa chọn điện thoại cho phù hợp nhé.
+"""
+
+OUTPUT-HTML:
+```html
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infographic: So Sánh Samsung Galaxy S25 vs. iPhone 16</title>
+    
+    <!-- PHÂN TÍCH & LÊN Ý TƯỞNG (COMMENT) -->
+    <!-- 
+        1. Phân tích nội dung: So sánh hai flagship Galaxy S25 và iPhone 16. Các điểm chính bao gồm AI (Galaxy AI vs Apple Intelligence), Camera (hệ thống 3 vs 2), Pin (29h vs 22h), và các nút bấm vật lý mới trên iPhone.
+        2. Cấu trúc & Kịch bản: Header -> Hình ảnh so sánh -> Các điểm khác biệt chính (dạng thẻ) -> Biểu đồ so sánh Hiệu năng & Pin -> Bảng thông số chi tiết -> Đối tượng người dùng -> Footer.
+        3. Lựa chọn trực quan hóa:
+           - So sánh Hiệu năng & Pin -> Biểu đồ cột nhóm (Bar Chart): So sánh trực tiếp 2 chỉ số khác nhau (điểm hiệu năng giả định và giờ xem video) giữa 2 sản phẩm.
+           - Các điểm nổi bật khác -> Thẻ thông tin (Cards) với icon: Dễ dàng quét và nắm bắt thông tin nhanh.
+           - Thông số kỹ thuật -> Bảng (Table): Rõ ràng, chi tiết cho người cần.
+        4. Bảng màu: Energetic & Playful (Đỏ, Vàng, Xanh lá, Xanh dương)
+    -->
+    
+    <!-- CDNs -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+        }
+        .chart-container {
+            position: relative;
+            height: 400px;
+            width: 100%;
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .highlight-feature {
+            background: linear-gradient(to right, #fef2f2, #fffbeb);
+            border-left: 4px solid #ef4444;
+        }
+        .spec-highlight {
+            font-weight: 700;
+            color: #8b5cf6; /* violet-500 */
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-700">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-5xl">
+        
+        <!-- ======================= 1. HEADER ======================= -->
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-4 gradient-text">Galaxy S25 vs. iPhone 16: Siêu Flagship Đối Đầu</h1>
+            <p class="text-lg text-slate-600 max-w-3xl mx-auto">Cuộc chiến công nghệ giữa hai gã khổng lồ Samsung và Apple được thể hiện qua hai mẫu điện thoại nhỏ gọn hàng đầu.</p>
+        </header>
+
+        <!-- ======================= 2. NỘI DUNG CHÍNH ======================= -->
+        <main class="space-y-16">
+            
+            <!-- SECTION 2.1: Hình ảnh chính -->
+            <section id="hero-image">
+                <figure class="bg-white p-4 rounded-2xl shadow-lg">
+                    <img src="https://photo2.tinhte.vn/data/attachment-files/2025/01/8620646_s25-vs-ip16.jpeg" alt="Hình ảnh so sánh Samsung Galaxy S25 và iPhone 16" class="rounded-xl w-full object-cover">
+                    <figcaption class="text-center text-sm text-slate-500 mt-3">Hình ảnh concept về Samsung Galaxy S25 (trái) và iPhone 16 (phải).</figcaption>
+                </figure>
+            </section>
+
+            <!-- SECTION 2.2: Các thẻ tóm tắt điểm chính -->
+            <section id="highlights">
+                <h2 class="text-3xl font-bold text-center mb-10 flex items-center justify-center gap-x-3"><i class="fas fa-star text-yellow-400"></i>Những Khác Biệt Nổi Bật</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- AI Card -->
+                    <div class="bg-white p-6 rounded-xl shadow-md text-center transition hover:shadow-xl hover:-translate-y-1">
+                        <i class="fas fa-brain text-4xl text-blue-500 mb-3"></i>
+                        <h3 class="font-bold text-lg mb-2">Trí Tuệ Nhân Tạo (AI)</h3>
+                        <p class="text-sm"><strong>Galaxy S25:</strong> <span class="spec-highlight">Hỗ trợ Tiếng Việt đầy đủ</span>, đa năng.</p>
+                        <p class="text-sm text-slate-500 mt-1"><strong>iPhone 16:</strong> Apple Intelligence mạnh mẽ, Tiếng Việt (2025).</p>
+                    </div>
+                    <!-- Camera Card -->
+                    <div class="bg-white p-6 rounded-xl shadow-md text-center transition hover:shadow-xl hover:-translate-y-1">
+                        <i class="fas fa-camera-retro text-4xl text-red-500 mb-3"></i>
+                        <h3 class="font-bold text-lg mb-2">Hệ Thống Camera</h3>
+                        <p class="text-sm"><strong>Galaxy S25:</strong> <span class="spec-highlight">Hệ thống 3 camera</span> đa dụng (có tele).</p>
+                        <p class="text-sm text-slate-500 mt-1"><strong>iPhone 16:</strong> Camera kép chất lượng cao.</p>
+                    </div>
+                    <!-- Buttons Card -->
+                    <div class="bg-white p-6 rounded-xl shadow-md text-center transition hover:shadow-xl hover:-translate-y-1">
+                        <i class="fas fa-hand-pointer text-4xl text-green-500 mb-3"></i>
+                        <h3 class="font-bold text-lg mb-2">Nút Bấm Vật Lý</h3>
+                        <p class="text-sm"><strong>Galaxy S25:</strong> Thiết kế tối giản.</p>
+                        <p class="text-sm text-slate-500 mt-1"><strong>iPhone 16:</strong> <span class="spec-highlight">Thêm Nút Action & Camera Control</span>.</p>
+                    </div>
+                     <!-- Design Card -->
+                    <div class="bg-white p-6 rounded-xl shadow-md text-center transition hover:shadow-xl hover:-translate-y-1">
+                        <i class="fas fa-mobile-alt text-4xl text-purple-500 mb-3"></i>
+                        <h3 class="font-bold text-lg mb-2">Màn Hình</h3>
+                        <p class="text-sm"><strong>Galaxy S25:</strong> 6.2", <span class="spec-highlight">mượt mà hơn (120Hz)</span>.</p>
+                        <p class="text-sm text-slate-500 mt-1"><strong>iPhone 16:</strong> 6.1", tần số quét 60Hz.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2.3: Biểu đồ (nếu có) -->
+            <section id="chart-section">
+                 <h2 class="text-3xl font-bold text-center mb-10 flex items-center justify-center gap-x-3"><i class="fas fa-chart-bar text-blue-500"></i>So Sánh Hiệu Năng & Pin</h2>
+                 <p class="text-center max-w-3xl mx-auto mb-10 text-slate-600">Cả hai đều trang bị chip 3nm hàng đầu, nhưng Galaxy S25 cho thấy ưu thế về thời lượng pin trên lý thuyết, một yếu tố quan trọng với người dùng thường xuyên.</p>
+                 <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                    <div class="chart-container">
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+                    <p class="text-center text-sm text-slate-500 mt-4">*Hiệu năng được thể hiện qua chỉ số giả định để so sánh tương quan.</p>
+                 </div>
+            </section>
+
+             <!-- SECTION 2.4: Bảng so sánh chi tiết (nếu có) -->
+             <section id="table-section">
+                <h2 class="text-3xl font-bold text-center mb-10 flex items-center justify-center gap-x-3"><i class="fas fa-list-ul text-green-500"></i>Bảng So Sánh Thông Số</h2>
+                <div class="overflow-x-auto bg-white rounded-xl shadow-lg p-1">
+                    <table class="w-full min-w-max">
+                        <thead class="bg-slate-100">
+                            <tr>
+                                <th class="p-3 text-left font-semibold text-slate-600">Tính Năng</th>
+                                <th class="p-3 text-center font-semibold text-slate-600">Samsung Galaxy S25</th>
+                                <th class="p-3 text-center font-semibold text-slate-600">Apple iPhone 16</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200">
+                            <tr class="hover:bg-gray-50"><td class="p-3 font-medium">Màn hình</td><td class="p-3 text-center"><span class="spec-highlight">6.2" Dynamic AMOLED 2X, 120Hz</span></td><td class="p-3 text-center">6.1" Super Retina XDR, 60Hz</td></tr>
+                            <tr class="hover:bg-gray-50"><td class="p-3 font-medium">Vi xử lý</td><td class="p-3 text-center">Snapdragon 8 Elite for Galaxy</td><td class="p-3 text-center">Apple A18</td></tr>
+                            <tr class="hover:bg-gray-50"><td class="p-3 font-medium">RAM</td><td class="p-3 text-center"><span class="spec-highlight">12GB</span></td><td class="p-3 text-center">8GB</td></tr>
+                            <tr class="hover:bg-gray-50"><td class="p-3 font-medium">Camera Sau</td><td class="p-3 text-center"><span class="spec-highlight">3 camera (có Tele 3x)</span></td><td class="p-3 text-center">2 camera</td></tr>
+                            <tr class="hover:bg-gray-50"><td class="p-3 font-medium">Pin (Xem video)</td><td class="p-3 text-center"><span class="spec-highlight">~29 giờ</span></td><td class="p-3 text-center">~22 giờ</td></tr>
+                             <tr class="hover:bg-gray-50"><td class="p-3 font-medium">Hệ điều hành</td><td class="p-3 text-center">Android 15 (One UI 7)</td><td class="p-3 text-center">iOS 18</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+             </section>
+             
+             <!-- SECTION 2.5: Đối tượng người dùng -->
+            <section id="user-persona">
+                <h2 class="text-3xl font-bold text-center mb-10 flex items-center justify-center gap-x-3"><i class="fas fa-user-check text-purple-500"></i>Lựa Chọn Nào Dành Cho Bạn?</h2>
+                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="highlight-feature p-6 rounded-lg">
+                        <h3 class="font-bold text-xl mb-2 text-red-600">Chọn Galaxy S25 nếu bạn...</h3>
+                        <ul class="list-disc list-inside space-y-1 text-slate-700">
+                            <li>Ưu tiên các tính năng AI có hỗ trợ Tiếng Việt ngay lập tức.</li>
+                            <li>Thích sự đa dụng của hệ thống 3 camera với khả năng zoom quang học.</li>
+                            <li>Cần một màn hình mượt mà 120Hz và thời lượng pin vượt trội.</li>
+                            <li>Muốn một hệ điều hành Android cởi mở, dễ dàng tùy biến.</li>
+                        </ul>
+                    </div>
+                    <div class="highlight-feature p-6 rounded-lg border-blue-500">
+                        <h3 class="font-bold text-xl mb-2 text-blue-600">Chọn iPhone 16 nếu bạn...</h3>
+                        <ul class="list-disc list-inside space-y-1 text-slate-700">
+                            <li>Đã ở trong hệ sinh thái Apple và đánh giá cao sự liền mạch.</li>
+                            <li>Tin tưởng vào sức mạnh hiệu năng và tối ưu hóa phần mềm của chip Apple A-series.</li>
+                            <li>Thích các phím tắt vật lý mới như Action Button và Camera Control.</li>
+                            <li>Sẵn sàng chờ đợi để trải nghiệm Apple Intelligence bằng Tiếng Việt.</li>
+                        </ul>
+                    </div>
+                 </div>
+            </section>
+        </main>
+
+        <!-- ======================= 3. FOOTER ======================= -->
+        <footer class="text-center text-sm text-slate-500 mt-16 pt-8 border-t">
+            <p>&copy; 2025 | Infographic được thiết kế dựa trên tổng hợp thông tin.</p>
+        </footer>
+
+    </div>
+
+    <!-- ======================= SCRIPT FOR CHARTS ======================= -->
+    <script>
+        // Hàm xử lý nhãn dài (bắt buộc)
+        function wrapLabel(label, maxWidth) { 
+            const words = label.split(' ');
+            let line = '';
+            const lines = [];
+            for (let i = 0; i < words.length; i++) {
+                const testLine = line + words[i] + ' ';
+                if (testLine.length > maxWidth && i > 0) {
+                    lines.push(line.trim());
+                    line = words[i] + ' ';
+                } else {
+                    line = testLine;
+                }
+            }
+            lines.push(line.trim());
+            return lines;
+        }
+
+        // Callback cho tooltip (bắt buộc)
+        const tooltipTitleCallback = (tooltipItems) => { 
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+              return label.join(' ');
+            }
+            return label;
+        };
+
+        const sharedChartOptions = {
+            plugins: {
+                tooltip: {
+                    enabled: true,
+                    callbacks: {
+                        title: tooltipTitleCallback
+                    },
+                    backgroundColor: '#334155',
+                    titleColor: '#FFFFFF',
+                    bodyColor: '#f8fafc',
+                    titleFont: { size: 14, weight: 'bold', family: 'Be Vietnam Pro' },
+                    bodyFont: { size: 12, family: 'Be Vietnam Pro' },
+                    padding: 12,
+                    cornerRadius: 8,
+                    boxPadding: 4,
+                },
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        color: '#334155',
+                        font: {
+                            size: 14,
+                            family: 'Be Vietnam Pro'
+                        },
+                        padding: 20,
+                        usePointStyle: true,
+                        pointStyle: 'rectRounded'
+                    }
+                }
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const performanceCtx = document.getElementById('performanceChart').getContext('2d');
+            new Chart(performanceCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Hiệu năng (Điểm tương quan)', 'Pin (Giờ xem video)'],
+                    datasets: [{
+                        label: 'Galaxy S25',
+                        data: [9.8, 29],
+                        backgroundColor: 'rgba(239, 68, 68, 0.7)', // red-500
+                        borderColor: '#ef4444',
+                        borderWidth: 1,
+                        borderRadius: 5
+                    }, {
+                        label: 'iPhone 16',
+                        data: [10, 22],
+                        backgroundColor: 'rgba(59, 130, 246, 0.7)', // blue-500
+                        borderColor: '#3b82f6',
+                        borderWidth: 1,
+                        borderRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: sharedChartOptions.plugins,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: '#e2e8f0' }
+                        },
+                        x: {
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+```

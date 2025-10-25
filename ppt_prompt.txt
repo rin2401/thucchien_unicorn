@@ -1,0 +1,82 @@
+# Yêu Cầu Tổng Thể: Tạo Infographic Dạng Slide Trình Bày (Tỷ Lệ 4:3)
+
+**Mục tiêu:** Dựa trên nội dung văn bản được cung cấp, hãy tạo một tệp HTML duy nhất hoạt động như một slide infographic. Slide này phải trình bày thông tin trong một khung nhìn có **tỷ lệ 4:3 cố định**, giống như một slide thuyết trình. Bố cục phải được thiết kế cho không gian ngang, trình bày thông tin một cách trực quan, hấp dẫn và dễ hiểu.
+
+**Yêu cầu cốt lõi:**
+- **Định dạng Slide:** Toàn bộ nội dung phải nằm trong một vùng chứa chính có tỷ lệ khung hình 4:3.
+- **Co giãn & Căn giữa:** Vùng chứa này phải tự động co giãn để vừa với cửa sổ trình duyệt (lớn hoặc nhỏ) trong khi vẫn duy trì tỷ lệ 4:3 và luôn được căn giữa màn hình.
+- **Ngôn ngữ hiển thị:** Toàn bộ nội dung văn bản trên infographic (tiêu đề, mô tả, nhãn biểu đồ, v.v.) bắt buộc phải là **tiếng Việt**.
+
+## I. Quy Trình Phân Tích & Lên Ý Tưởng (Bắt Buộc)
+
+Trước khi viết code, bạn phải thực hiện các bước phân tích sau và ghi lại dưới dạng comment trong thẻ `<head>` của file HTML.
+
+**Phân Tích & Tóm Tắt Nội Dung:**
+- Đọc kỹ tài liệu nguồn, xác định các điểm dữ liệu (data points) quan trọng, các mối quan hệ, các số liệu thống kê, và thông điệp chính.
+- Chắt lọc và tóm tắt thông tin thành các ý chính, siêu ngắn gọn, phù hợp để trình bày trong không gian giới hạn của một slide.
+
+**Xây Dựng Cấu Trúc Bố Cục Slide:**
+- Vạch ra một kịch bản bố trí nội dung logic trên mặt phẳng ngang của slide.
+- Chia slide thành các vùng chức năng rõ ràng (ví dụ: Cột trái cho thông tin chính, cột phải cho biểu đồ, vùng trên cùng cho tiêu đề, v.v.) sử dụng hệ thống grid.
+
+**Lựa Chọn Hình Thức Trực Quan Hóa:**
+- Với mỗi vùng và mỗi điểm dữ liệu, xác định mục tiêu (ví dụ: So sánh, Hiển thị xu hướng).
+- Lựa chọn loại biểu đồ hoặc hình thức trực quan (thẻ card, bảng) phù hợp nhất, tuân thủ nghiêm ngặt các yêu cầu kỹ thuật bên dưới.
+- Ghi chú ngắn gọn lý do chọn hình thức đó.
+
+## II. Yêu Cầu Kỹ Thuật (Bắt Buộc)
+
+**Cấu Trúc File:**
+- Toàn bộ sản phẩm phải nằm trong **MỘT tệp HTML duy nhất**.
+- Sử dụng HTML5 với các thẻ ngữ nghĩa (`<main>`, `<section>`, `<h3>`, `<p>`, etc.).
+
+**CSS & Styling:**
+- **Tailwind CSS:** Bắt buộc sử dụng làm framework chính, tải qua CDN: `<script src="https://cdn.tailwindcss.com"></script>`.
+- **Bố Cục Slide Chính (Quan trọng nhất):**
+  - `<body>` phải được style để căn giữa nội dung theo cả chiều ngang và chiều dọc (ví dụ: `h-screen flex items-center justify-center bg-gray-200`).
+  - Phải có một `<div>` chính đóng vai trò là slide, ví dụ `<div id="slide-container">`.
+  - **`#slide-container` BẮT BUỘC** phải được style để:
+    - Có tỷ lệ khung hình 4:3: Sử dụng class `aspect-[4/3]` của Tailwind.
+    - Tự động co giãn nhưng không vượt quá kích thước màn hình: Kết hợp `w-full` và `h-full` với các ràng buộc `max-w-[...]` và `max-h-[...]` để duy trì tỷ lệ trong các cửa sổ trình duyệt khác nhau. Một cách tiếp cận hiệu quả là đặt `width` và `height` cho vùng chứa cha của slide.
+    - Có nền và đổ bóng để nổi bật (ví dụ: `bg-white shadow-2xl`).
+    - Sử dụng `grid` hoặc `flexbox` để sắp xếp nội dung bên trong (ví dụ: `grid grid-cols-12 grid-rows-12 gap-4`).
+    - `overflow: hidden;` để đảm bảo không có nội dung nào tràn ra ngoài slide.
+- **Thẻ Chứa Biểu Đồ (.chart-container):**
+  - Mọi biểu đồ `<canvas>` phải được bọc trong một `<div>` có class `.chart-container`.
+  - Thẻ div này phải có `position: relative;` và kích thước được xác định bởi layout grid của slide (ví dụ: `col-span-6 row-span-5`).
+
+**Thư Viện JavaScript (Bắt Buộc):**
+- **Chart.js:** Bắt buộc sử dụng cho tất cả các biểu đồ, tải qua CDN: `<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>`.
+- **Cấu hình bắt buộc:** Mọi biểu đồ Chart.js phải có options sau: `{ responsive: true, maintainAspectRatio: false }`. Điều này cho phép biểu đồ lấp đầy `.chart-container`.
+- **Xử Lý Nhãn Dài:** Bắt buộc phải có hàm JavaScript để tự động ngắt dòng các nhãn (labels) dài hơn 16 ký tự.
+- **Cấu hình Tooltip:** Bắt buộc phải có `plugins.tooltip.callbacks.title` để xử lý tooltip cho các nhãn đã được ngắt dòng.
+
+**Đồ Họa & Biểu Tượng (Icons):**
+- **CẤM SỬ DỤNG SVG & Mermaid JS.**
+- **Icons:** Chỉ sử dụng thư viện **Font Awesome** (tải qua CDN) hoặc các ký tự Unicode (Emoji).
+- **CDN Font Awesome:** `<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">`
+- **Xử lý Hình ảnh:**
+  - **KHÔNG ĐƯỢC PHÉP** tự tạo link ảnh.
+  - **KHÔNG hiển thị ảnh** nếu link trong văn bản không tồn tại hoặc không phù hợp.
+  - Nếu có nhiều link ảnh, chỉ chọn 1-2 ảnh đại diện phù hợp nhất.
+
+## III. Yêu Cầu Thiết Kế & Nội Dung
+
+**Bảng Màu (Color Palette):**
+- Chọn **MỘT** bảng màu cụ thể, sống động, có độ tương phản cao và áp dụng nhất quán.
+- Ghi tên bảng màu đã chọn trong comment của file HTML.
+
+**Typography & Font Chữ:**
+- Sử dụng **Google Fonts** (khuyến khích Be Vietnam Pro hoặc Montserrat) và import trong thẻ `<head>`.
+- Phân cấp tiêu đề rõ ràng (h1, h2, h3). Đảm bảo kích thước chữ phù hợp và dễ đọc trong không gian slide cố định.
+
+**Bố Cục & Phong Cách:**
+- Thiết kế ưu tiên cho **chiều ngang**.
+- Sử dụng hệ thống **grid của Tailwind** (ví dụ: `grid-cols-12`, `grid-rows-12`, `gap-4`) bên trong slide container để sắp xếp các khối thông tin, biểu đồ một cách chính xác và cân đối.
+- Sử dụng các thẻ card (div với `bg-gray-50`, `rounded-lg`, `p-4`) để nhóm các thông tin liên quan.
+- Thêm các hiệu ứng tinh tế (transition, hover) để tăng tính tương tác.
+
+**Nội Dung Đi Kèm:**
+- Mỗi biểu đồ phải đi kèm một đoạn văn bản ngắn gọn giải thích nó đang thể hiện điều gì và kết luận rút ra.
+- Phải có một tiêu đề chính và một đoạn mô tả ngắn gọn cho toàn bộ slide.
+```

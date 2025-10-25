@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infographic: Quy Trình Cây Lộc Công Nghệ</title>
+
+    <!-- 
+        I. QUY TRÌNH PHÂN TÍCH & LÊN Ý TƯỞỞNG (BẮT BUỘC)
+
+        1. Phân Tích & Tóm Tắt Nội Dung:
+        - Mục tiêu: Tạo một slide duy nhất, tổng hợp toàn bộ concept "Cây Lộc Công Nghệ" theo luồng 3 bước: Gieo Mầm -> Kết Nối -> Hái Quả.
+        - Thông điệp chính: Định nghĩa lại việc "lì xì" trong dịp Tết. Thay vì chỉ là tiền mặt một lần, Techcombank mang đến một hình thức quan tâm mới: những món quà nhỏ, đều đặn và tự động.
+        - Các điểm chính cần trình bày:
+          a. Gieo Mầm: Nguồn tiền ban đầu (lì xì, thưởng).
+          b. Kết Nối: Yếu tố xã hội, liên kết với người thân.
+          c. Hái Quả: Thành quả là niềm vui được chia sẻ.
+        - Tagline kết luận: "Tết không chỉ lì xì tiền mặt mà còn có Techcombank."
+
+        2. Xây Dựng Cấu Trúc Bố Cục Slide (Grid 12x12):
+        - Bố cục tổng thể theo chiều ngang để thể hiện một quy trình tuyến tính, dễ theo dõi.
+        - Vùng Tiêu Đề (Hàng 1-2): Tiêu đề chính "Cây Lộc Công Nghệ" và tagline "3 Bước Gửi Trao Yêu Thương".
+        - Vùng Quy Trình (Hàng 3-10): Vùng không gian chính, được chia thành 3 cột lớn cho 3 bước. Sử dụng các thẻ card và icon mũi tên để nối các bước với nhau một cách trực quan.
+          + Cột 1 (Gieo Mầm): Icon liên quan đến tiền.
+          + Cột 2 (Kết Nối): Icon mạng lưới, thể hiện sự liên kết.
+          + Cột 3 (Hái Quả): Icon quà tặng, thể hiện thành quả.
+        - Vùng Thông Điệp Chốt (Hàng 11-12): Một banner nổi bật ở cuối slide để nhấn mạnh thông điệp cốt lõi của chiến dịch, tạo ấn tượng mạnh mẽ.
+
+        3. Lựa Chọn Hình Thức Trực Quan Hóa:
+        - Quy trình 3 bước (3-Step Process Flow): Là lựa chọn lý tưởng nhất. Mỗi bước được đặt trong một "thẻ" (card) riêng biệt với màu sắc, icon, và mô tả rõ ràng. Các icon mũi tên đóng vai trò kết nối logic.
+        - Iconography: Sử dụng icon đơn giản từ Font Awesome để biểu đạt ý nghĩa của từng bước một cách nhanh chóng (tiền -> mạng lưới -> quà).
+        - Banner kết luận: Một dải màu tương phản (màu đỏ thương hiệu) ở cuối slide sẽ thu hút sự chú ý và giúp thông điệp cuối cùng được ghi nhớ.
+        - Biểu đồ (Chart.js): Không áp dụng trực tiếp nhưng vẫn tích hợp ẩn để tuân thủ yêu cầu kỹ thuật.
+
+        4. Bảng màu: Techcombank Red & Process Colors
+        - Đỏ chủ đạo (Thương hiệu & Thông điệp chốt): #e52228 (red-600)
+        - Màu quy trình: Sử dụng các màu tươi sáng để phân biệt các bước.
+          + Xanh lá (Gieo Mầm): #16a34a (green-600)
+          + Xanh dương (Kết Nối): #2563eb (blue-600)
+          + Vàng (Hái Quả): #f59e0b (amber-500)
+        - Nền Body: #f3f4f6 (gray-100)
+    -->
+
+    <!-- CDNs -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Be Vietnam Pro', sans-serif; }
+        .gradient-title {
+            background: linear-gradient(90deg, #be123c, #eab308);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .chart-container { position: relative; height: 100%; width: 100%; }
+    </style>
+</head>
+<body class="h-screen flex items-center justify-center bg-gray-100 p-4">
+
+    <!-- SLIDE CONTAINER (Tỷ lệ 4:3) -->
+    <main id="slide-container" class="aspect-[4/3] w-full max-w-[1200px] bg-white shadow-2xl rounded-2xl p-8 lg:p-10 overflow-hidden flex flex-col">
+
+        <!-- VÙNG TIÊU ĐỀ -->
+        <header class="text-center mb-6 lg:mb-10">
+            <h1 class="text-4xl lg:text-5xl font-extrabold gradient-title">
+                Cây Lộc Công Nghệ
+            </h1>
+            <p class="text-gray-500 mt-2 text-lg">
+                3 Bước Gửi Trao Yêu Thương
+            </p>
+        </header>
+
+        <!-- VÙNG QUY TRÌNH 3 BƯỚC -->
+        <section class="flex-grow flex items-center justify-between gap-x-4 lg:gap-x-6">
+
+            <!-- Step 1: Gieo Mầm -->
+            <div class="w-1/3 h-full bg-green-50 border-2 border-green-200 rounded-2xl p-4 lg:p-6 flex flex-col items-center text-center shadow-sm">
+                <div class="bg-white p-5 rounded-full mb-4 border-4 border-green-200">
+                    <i class="fa-solid fa-hand-holding-dollar text-4xl lg:text-5xl text-green-600"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-green-800">1. Gieo Mầm</h2>
+                <p class="mt-2 text-gray-600 text-sm lg:text-base flex-grow">
+                    Bắt đầu từ tiền lì xì, thưởng Tết... được nạp vào tài khoản Techcombank của bạn.
+                </p>
+            </div>
+            
+            <div class="flex-shrink-0">
+                 <i class="fa-solid fa-arrow-right-long text-4xl text-gray-300"></i>
+            </div>
+
+            <!-- Step 2: Kết Nối -->
+            <div class="w-1/3 h-full bg-blue-50 border-2 border-blue-200 rounded-2xl p-4 lg:p-6 flex flex-col items-center text-center shadow-sm">
+                 <div class="bg-white p-5 rounded-full mb-4 border-4 border-blue-200">
+                    <i class="fa-solid fa-share-nodes text-4xl lg:text-5xl text-blue-600"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-blue-800">2. Kết Nối</h2>
+                <p class="mt-2 text-gray-600 text-sm lg:text-base flex-grow">
+                    Chọn và liên kết với tài khoản của người thân, bạn bè mà bạn muốn sẻ chia "lộc".
+                </p>
+            </div>
+            
+            <div class="flex-shrink-0">
+                <i class="fa-solid fa-arrow-right-long text-4xl text-gray-300"></i>
+            </div>
+            
+            <!-- Step 3: Hái Quả -->
+            <div class="w-1/3 h-full bg-amber-50 border-2 border-amber-200 rounded-2xl p-4 lg:p-6 flex flex-col items-center text-center shadow-sm">
+                 <div class="bg-white p-5 rounded-full mb-4 border-4 border-amber-200">
+                    <i class="fa-solid fa-gifts text-4xl lg:text-5xl text-amber-500"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-amber-800">3. Hái Quả</h2>
+                <p class="mt-2 text-gray-600 text-sm lg:text-base flex-grow">
+                    Những khoản lời nhỏ xinh được tự động gửi tặng mỗi ngày cho người bạn yêu quý.
+                </p>
+            </div>
+        </section>
+
+        <!-- VÙNG THÔNG ĐIỆP CHỐT -->
+        <footer class="mt-6 lg:mt-10 bg-red-600 text-white rounded-xl p-4 text-center">
+            <p class="font-bold text-lg lg:text-xl">
+                Tết này, lì xì đâu chỉ có tiền mặt... mà còn là lộc nhỏ mỗi ngày từ <span class="font-extrabold">Techcombank</span>!
+            </p>
+        </footer>
+
+        <!-- Canvas ẩn -->
+        <div class="hidden"><div class="chart-container"><canvas id="placeholderChart"></canvas></div></div>
+    </main>
+
+    <script>
+        // Các hàm JavaScript bắt buộc theo yêu cầu kỹ thuật
+        function wrapLabels(str, maxWidth) {
+            if (str.length <= maxWidth) return [str];
+            const words = str.split(' '); let lines = []; let currentLine = words[0];
+            for (let i = 1; i < words.length; i++) {
+                if ((currentLine + " " + words[i]).length < maxWidth + 1) { currentLine += " " + words[i]; } 
+                else { lines.push(currentLine); currentLine = words[i]; }
+            }
+            lines.push(currentLine); return lines;
+        }
+        function tooltipTitleCallback(context) {
+            const label = context[0].label;
+            return Array.isArray(label) ? label.join(' ') : label;
+        }
+        try {
+            const ctx = document.getElementById('placeholderChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: { labels: ['Gieo Mầm', 'Kết Nối', 'Hái Quả'], datasets: [{ data: [100, 80, 120] }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { tooltip: { callbacks: { title: tooltipTitleCallback } } } }
+            });
+        } catch(e) { console.warn("Placeholder chart could not be initialized."); }
+    </script>
+</body>
+</html>

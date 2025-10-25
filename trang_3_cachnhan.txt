@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infographic: Cây Lộc Công Nghệ - Gieo Lộc Yêu Thương</title>
+
+    <!-- 
+        I. QUY TRÌNH PHÂN TÍCH & LÊN Ý TƯỞNG (BẮT BUỘC) - PHIÊN BẢN CẬP NHẬT
+
+        1. Phân Tích & Tóm Tắt Nội Dung:
+        - Thông điệp chính: Nâng cấp concept "Cây Lộc Công Nghệ" từ một công cụ sinh lời cá nhân thành một MẠNG LƯỚI GỬI TRAO YÊU THƯƠNG. "Tiền sinh ra tiền" không chỉ cho mình, mà còn cho cả những người mình quan tâm.
+        - Insight cốt lõi: Nhu cầu thể hiện sự quan tâm không chỉ dừng lại ở những món quà lớn. Những "lộc nhỏ" bất ngờ, đều đặn hàng ngày có thể là một cách tinh tế và hiện đại để nói "Mẹ/Cha/Bạn... luôn ở trong tâm trí tôi".
+        - Các điểm chính cần trình bày:
+          a. Concept chủ đạo: "Cây Lộc" là một mạng lưới xã hội tài chính, nơi bạn là trung tâm.
+          b. Tính năng đột phá: Tự động trích một phần hoặc toàn bộ tiền lời hàng ngày để "tặng" cho tài khoản của người thân (con, cha mẹ, bạn bè).
+          c. Luồng hoạt động: Trực quan hóa cách một người dùng (Mẹ) có thể thiết lập việc "gieo lộc" cho người khác (Con).
+          d. Ý nghĩa cảm xúc: Nhấn mạnh vào giá trị tình cảm thay vì chỉ là lợi ích tài chính.
+
+        2. Xây Dựng Cấu Trúc Bố Cục Slide (Grid 12x12):
+        - Slide được chia thành hai cột chính để thể hiện rõ ràng luồng ý tưởng.
+        - Vùng Tiêu Đề (Hàng 1-2): Tiêu đề chính và một dòng tagline cảm xúc "Gieo Lộc Yêu Thương, Gửi Trọn Quan Tâm".
+        - Cột Trái - Cơ Chế Hoạt Động (Hàng 3-12, Cột 1-5): Trình bày 3 bước đơn giản để thiết lập tính năng chia sẻ "lộc". Sử dụng các thẻ card với icon để minh họa.
+        - Cột Phải - Sơ Đồ "Cây Lộc" (Hàng 3-12, Cột 6-12): Đây là phần trọng tâm, trực quan hóa mạng lưới.
+          + Một node trung tâm là "BẠN".
+          + Các "nhánh" tỏa ra các node vệ tinh như "Gia Đình", "Bạn Bè".
+          + Minh họa cụ thể một luồng "gieo lộc" từ Mẹ -> Con, kèm theo một bong bóng thoại giải thích tình huống sử dụng ("Lộc nhỏ mỗi ngày cho con mua quà vặt").
+
+        3. Lựa Chọn Hình Thức Trực Quan Hóa:
+        - Cơ chế hoạt động: Sử dụng các bước được đánh số (Numbered Steps) với icon và mô tả ngắn gọn. Đây là cách hiệu quả nhất để giải thích một quy trình.
+        - Sơ đồ mạng lưới (Network Diagram): Thay vì một quy trình tuyến tính, slide sử dụng một sơ đồ hình cây đơn giản để thể hiện mối quan hệ kết nối. Các node (hình tròn) và các đường nối (border) tạo ra một hình ảnh trực quan, dễ hiểu về concept "Cây Lộc" xã hội.
+        - Bong bóng thoại (Tooltip/Speech Bubble): Được dùng để kể một câu chuyện nhỏ, tạo ra sự đồng cảm và giúp người xem hình dung rõ hơn về lợi ích thực tế của tính năng.
+        - Biểu đồ (Chart.js): Vẫn không có dữ liệu số liệu, nên Chart.js chỉ được tích hợp ở dạng ẩn để tuân thủ yêu cầu kỹ thuật.
+
+        4. Bảng màu: Techcombank Red & Warm Connections
+        - Giữ nguyên màu Đỏ (#e52228) và Vàng (#f59e0b) làm màu chủ đạo.
+        - Bổ sung màu xanh lá cây (#16a34a) cho các hành động tích cực như "Gửi Lộc".
+        - Nền Slide: #FFFFFF (trắng).
+        - Nền Body: #fef2f2 (đỏ nhạt).
+    -->
+
+    <!-- CDNs -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Be Vietnam Pro', sans-serif; }
+        .gradient-title {
+            background: linear-gradient(90deg, #e52228, #ca8a04);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .chart-container { position: relative; height: 100%; width: 100%; }
+    </style>
+</head>
+<body class="h-screen flex items-center justify-center bg-red-50 p-4">
+
+    <!-- SLIDE CONTAINER (Tỷ lệ 4:3) -->
+    <main id="slide-container" class="aspect-[4/3] w-full max-w-[1200px] bg-white shadow-2xl rounded-2xl p-8 lg:p-10 overflow-hidden grid grid-cols-12 grid-rows-12 gap-x-6">
+
+        <!-- VÙNG TIÊU ĐỀ (Hàng 1-2) -->
+        <header class="col-span-12 row-span-2 text-center flex flex-col justify-center items-center">
+            <h1 class="text-4xl lg:text-5xl font-extrabold gradient-title flex items-center gap-x-3">
+                <i class="fa-solid fa-people-roof"></i>
+                Cây Lộc Công Nghệ
+            </h1>
+            <p class="text-gray-600 mt-2 text-base lg:text-lg">
+                Gieo Lộc Yêu Thương, Gửi Trọn Quan Tâm.
+            </p>
+        </header>
+
+        <!-- CỘT TRÁI - CƠ CHẾ HOẠT ĐỘNG (Hàng 3-12, Cột 1-5) -->
+        <section class="col-span-5 row-span-10 flex flex-col justify-center gap-y-6 pr-4 border-r border-gray-200">
+            <h2 class="text-2xl font-bold text-red-700 text-center mb-2">Cách "Gieo Lộc"</h2>
+            <!-- Step 1 -->
+            <div class="flex items-start gap-x-4">
+                <div class="flex-shrink-0 bg-red-100 text-red-600 rounded-full h-12 w-12 flex items-center justify-center text-xl font-bold">1</div>
+                <div>
+                    <h3 class="font-bold text-lg text-gray-800">Tiền Tự Sinh Lời</h3>
+                    <p class="text-gray-500 text-sm">Giữ tiền trong tài khoản Techcombank, hệ thống sẽ tự động tạo ra những khoản "lộc" nhỏ mỗi ngày.</p>
+                </div>
+            </div>
+             <!-- Step 2 -->
+            <div class="flex items-start gap-x-4">
+                <div class="flex-shrink-0 bg-amber-100 text-amber-600 rounded-full h-12 w-12 flex items-center justify-center text-xl font-bold">2</div>
+                <div>
+                    <h3 class="font-bold text-lg text-gray-800">Chọn Người Nhận Lộc</h3>
+                    <p class="text-gray-500 text-sm">Trong danh bạ, chọn tài khoản của con cái, cha mẹ, hoặc bạn bè mà bạn muốn gửi tặng lộc.</p>
+                </div>
+            </div>
+             <!-- Step 3 -->
+            <div class="flex items-start gap-x-4">
+                <div class="flex-shrink-0 bg-green-100 text-green-600 rounded-full h-12 w-12 flex items-center justify-center text-xl font-bold">3</div>
+                <div>
+                    <h3 class="font-bold text-lg text-gray-800">Thiết Lập & Gửi Tặng</h3>
+                    <p class="text-gray-500 text-sm">Tùy chỉnh mức lộc (%), thời gian gửi và gửi đi một lời chúc. Mọi thứ sẽ diễn ra hoàn toàn tự động.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CỘT PHẢI - SƠ ĐỒ "CÂY LỘC" (Hàng 3-12, Cột 6-12) -->
+        <section class="col-span-7 row-span-10 flex items-center justify-center relative">
+            <!-- Sơ đồ mạng lưới -->
+            <div class="w-full h-full flex flex-col items-center justify-center">
+                <!-- Nhánh Gia Đình -->
+                <div class="flex justify-center items-center mb-4">
+                    <div class="text-center">
+                        <div class="bg-red-100 border-2 border-red-200 text-red-700 rounded-full h-20 w-20 flex items-center justify-center font-bold text-lg">Mẹ</div>
+                        <p class="text-xs text-gray-500 mt-1">Gieo lộc</p>
+                    </div>
+                    <div class="w-16 border-t-2 border-dashed border-gray-300 mx-2 relative">
+                        <i class="fa-solid fa-arrow-right text-green-500 absolute -top-2.5 left-1/2 -translate-x-1/2"></i>
+                    </div>
+                    <div class="text-center relative">
+                        <div class="bg-green-100 border-2 border-green-200 text-green-700 rounded-full h-20 w-20 flex items-center justify-center font-bold text-lg">Con</div>
+                         <p class="text-xs text-gray-500 mt-1">Nhận lộc</p>
+                         <!-- Bong bóng thoại -->
+                         <div class="absolute -top-12 -right-24 w-48 bg-amber-50 p-3 rounded-lg shadow-md border border-amber-200">
+                             <p class="text-xs text-amber-800 leading-tight">"Lộc nhỏ mẹ gửi mỗi ngày, cuối tuần con đủ tiền mua cuốn truyện con thích nhé!"</p>
+                             <div class="absolute top-1/2 -left-2 w-4 h-4 bg-amber-50 transform rotate-45 border-b border-l border-amber-200"></div>
+                         </div>
+                    </div>
+                </div>
+
+                <!-- Đường nối xuống node chính -->
+                <div class="h-8 w-px bg-gray-300 border-l-2 border-dashed"></div>
+
+                <!-- Node chính -->
+                <div class="bg-red-600 text-white rounded-full h-24 w-24 flex items-center justify-center font-extrabold text-2xl shadow-lg z-10">BẠN</div>
+
+                <!-- Đường nối xuống các nhánh khác -->
+                <div class="h-8 w-px bg-gray-300 border-l-2 border-dashed"></div>
+                
+                <!-- Nhánh Bạn Bè -->
+                <div class="flex justify-center items-center space-x-8">
+                     <div class="text-center opacity-70">
+                        <div class="bg-gray-100 border-2 border-gray-200 text-gray-500 rounded-full h-16 w-16 flex items-center justify-center font-semibold">Bạn Thân</div>
+                    </div>
+                    <div class="text-center opacity-70">
+                        <div class="bg-gray-100 border-2 border-gray-200 text-gray-500 rounded-full h-16 w-16 flex items-center justify-center font-semibold">Đồng Nghiệp</div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+        
+        <!-- Canvas ẩn -->
+        <div class="hidden"><div class="chart-container"><canvas id="placeholderChart"></canvas></div></div>
+    </main>
+
+    <script>
+        function wrapLabels(str, maxWidth) {
+            if (str.length <= maxWidth) return [str];
+            const words = str.split(' '); let lines = []; let currentLine = words[0];
+            for (let i = 1; i < words.length; i++) {
+                if ((currentLine + " " + words[i]).length < maxWidth + 1) { currentLine += " " + words[i]; } 
+                else { lines.push(currentLine); currentLine = words[i]; }
+            }
+            lines.push(currentLine); return lines;
+        }
+
+        function tooltipTitleCallback(context) {
+            const label = context[0].label;
+            return Array.isArray(label) ? label.join(' ') : label;
+        }
+
+        try {
+            const ctx = document.getElementById('placeholderChart').getContext('2d');
+            const placeholderLabels = ['Lộc cho Gia Đình', 'Lộc cho Bạn Bè'].map(l => wrapLabels(l, 16));
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: { labels: placeholderLabels, datasets: [{ data: [70, 30], backgroundColor: ['#e52228', '#f59e0b'] }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { tooltip: { callbacks: { title: tooltipTitleCallback } } } }
+            });
+        } catch(e) { console.warn("Placeholder chart could not be initialized."); }
+    </script>
+</body>
+</html>

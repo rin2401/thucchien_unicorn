@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infographic: Chiến Dịch Tết 2026 Techcombank</title>
+
+    <!-- 
+        PHÂN TÍCH & LÊN Ý TƯỞNG (BẮT BUỘC)
+
+        1. Phân tích & Tóm tắt Nội dung:
+        - Thông điệp chính: Biến sản phẩm tài chính "Sinh Lời Tự Động" của Techcombank thành một trải nghiệm Tết vui vẻ, ý nghĩa thông qua concept "Cây Lộc Công Nghệ".
+        - Insight cốt lõi: Người dùng có tiền nhàn rỗi trong dịp Tết (tiền lì xì, thưởng) nhưng thường để "ngủ quên". Chiến dịch biến lợi ích tài chính nhỏ, tự động thành niềm vui bất ngờ mỗi ngày.
+        - Các điểm chính: Concept "Gieo Lộc - Hái Quả", kế hoạch truyền thông đa kênh (Social, App, KOLs, Chi nhánh), tận dụng GenAI để cá nhân hóa, TVC "Những Niềm Vui Gieo Từ Lộc Nhỏ".
+
+        2. Cấu trúc & Kịch bản Thuyết trình:
+        - Mở đầu: Giới thiệu Tiêu đề và Hình ảnh chủ đạo của chiến dịch.
+        - Section 1 (Bối Cảnh Vàng): Trình bày bối cảnh, thách thức và cơ hội của thị trường Tết.
+        - Section 2 (Ý Tưởng Đột Phá): Giới thiệu concept "Cây Lộc Công Nghệ" và quy trình "Gieo mầm -> Tự lớn -> Hái quả".
+        - Section 3 (Kế Hoạch Đa Kênh): Chi tiết hóa các hoạt động truyền thông trên 4 kênh chính.
+        - Section 4 (Tài Sản Sáng Tạo): Mô tả TVC và các mockup quảng cáo.
+        - Section 5 (Lý Do Thành Công & Lời kết): Tóm tắt các yếu tố đảm bảo thành công và kết thúc trình bày.
+
+        3. Lựa chọn Hình thức Trực quan hóa:
+        - Nội dung của chiến dịch này mang tính khái niệm và chiến lược, không chứa dữ liệu định lượng (số liệu, thống kê) để vẽ biểu đồ.
+        - Do đó, phương pháp trực quan hóa phù hợp nhất là sử dụng Thẻ Card (Cards), Icons, và Bố cục theo quy trình (Process Flow) để trình bày thông tin một cách rõ ràng, hấp dẫn và theo một câu chuyện mạch lạc.
+        - Quy trình "Gieo Lộc -> Hái Quả" -> Dùng Flexbox với các icon mũi tên để thể hiện luồng.
+        - Kế hoạch đa kênh -> Dùng Grid layout với 4 thẻ card, mỗi thẻ đại diện cho một kênh, sử dụng icon đặc trưng.
+        - Biểu đồ (Chart.js): Không áp dụng do không có dữ liệu phù hợp. Việc cố gắng vẽ biểu đồ sẽ làm thông tin trở nên gượng ép và không hiệu quả. Tuy nhiên, các hàm JavaScript bắt buộc vẫn sẽ được đưa vào để tuân thủ yêu cầu kỹ thuật.
+
+        4. Bảng màu: Techcombank Red & Gold Luck
+        - Đỏ chủ đạo (Techcombank): #e52228 (tương đương red-600)
+        - Vàng Lộc May Mắn (Accent): #f59e0b (tương đương amber-500)
+        - Nền: #fef2f2 (red-50) để tạo cảm giác ấm áp, liên quan đến thương hiệu nhưng không quá chói.
+        - Chữ: #1f2937 (gray-800), #4b5563 (gray-600)
+    -->
+
+    <!-- CDNs -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background-color: #fef2f2;
+            /* red-50 */
+        }
+
+        /* Style này không cần thiết vì không có biểu đồ, nhưng vẫn phải có theo yêu cầu */
+        .chart-container {
+            position: relative;
+            height: 400px;
+            width: 100%;
+        }
+
+        .gradient-title {
+            background: linear-gradient(90deg, #e52228, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .card-hover {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+    </style>
+</head>
+
+<body class="text-gray-800">
+
+    <div class="container mx-auto p-6 md:p-10 max-w-5xl">
+
+        <!-- ======================= 1. HEADER ======================= -->
+        <header class="text-center mb-16 flex flex-col items-center">
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-4 text-red-700">CHIẾN DỊCH TẾT 2026</h1>
+            <p class="text-2xl md:text-3xl font-bold gradient-title">Cây Lộc Công Nghệ:
+                Gieo Mầm - Kết nối - Hái quả</p>
+            <img src="image.png" alt="Techcombank Tết 2026 Infographic"
+                class="mx-auto mt-8 mb-16 w-full max-w-2xl rounded-lg shadow-lg">
+
+    </div>
+
+    < </body>
+
+</html>
